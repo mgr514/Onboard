@@ -4,13 +4,14 @@ import React, { useState, useEffect } from 'react';
 function App() {
   // ============================ CONST =======================================
   const [formTitle, setFormTitle] = useState('localStorage.getItem'); 
-  const [selectedItem, setSelectedItem] = useState(''); 
+  const [selectedItems, setSelectedItems] = useState([]); 
+  const [dropdownCount, setDropdownCount] = useState(1);
 
 
   //========================== FUNCTIONS =============================================
   //this is a hook, is that different from a typical function or is a hook a type of function? confused on language.
   useEffect(() => {
-    const storedTitle = ('formTitle');
+    const storedTitle = ('');
     if (storedTitle) {
       setFormTitle(storedTitle);
     }
@@ -24,17 +25,19 @@ function App() {
   }
 
 
-const handleSelectChange= (e) => {
-  setSelectedItem(e.target.value);
+const handleSelectChange= (index, e) => {
+  const newSelectedItems = [...selectedItems];
+  newSelectedItems[index] = e.target.value;
+  setSelectedItems(newSelectedItems);
 };
 
 
-//ADD DROP DOWN HANDLER ->troubleshoot required, does not currently add drop down like required
-  const handleAddDropdown = () => {
-    setSelectedItems([...selectedItems, '']); 
-  };
-  //currently only allows user to add new item to drop down menu, not actually add a new drop down menu?
 
+  const handleAddDropdown = () => {
+    setDropdownCount(dropdownCount + 1);
+    console.log('Button Clicked!')
+  };
+  
 //============================= BUILD FORM =====================================
   return <>
   <form className="new-item">
@@ -51,16 +54,20 @@ const handleSelectChange= (e) => {
           />
         </div>
 
-        <div className="form-row">
-          <label htmlFor="item">Add Education Point</label>
-          <select id="item" value={selectedItem} onChange={handleSelectChange}>
+       {Array.from({ length: dropdownCount }).map((_, index) => (  
+        <div className="form-row" key={index}>
+          <label htmlFor={`item${index}`}>Add Education Point</label>
+          <select 
+            id={`item${index}`}
+            value={selectedItems[index] || ''}
+            onChange={(e) => handleSelectChange(index, e)}>
             {/*Add education options here */}
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
           </select>
         </div>
-
+      ))}
         <button type="button" onClick={handleAddDropdown}> + </button>
       </form>
   </>
