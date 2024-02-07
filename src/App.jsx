@@ -4,14 +4,19 @@ import React, { useState, useEffect } from 'react';
 function App() {
   // ============================ CONST =======================================
   const [formTitle, setFormTitle] = useState('localStorage.getItem'); 
-  const [selectedItems, setSelectedItems] = useState([]); 
+  const [selectedItems, setSelectedItems] = useState([
+    { 
+      text: "Hello World",
+      imageUrl: "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg"
+    }
+  ])
   const [dropdownCount, setDropdownCount] = useState(1);
+ 
 
 
   //========================== FUNCTIONS =============================================
-  //this is a hook, is that different from a typical function or is a hook a type of function? confused on language.
   useEffect(() => {
-    const storedTitle = ('');
+    const storedTitle = localStorage.getItem('formTitle');//('');
     if (storedTitle) {
       setFormTitle(storedTitle);
     }
@@ -24,14 +29,20 @@ function App() {
     localStorage.setItem('formTitle', newTitle)
   }
 
-
 const handleSelectChange= (index, e) => {
-  const newSelectedItems = [...selectedItems];
-  newSelectedItems[index] = e.target.value;
-  setSelectedItems(newSelectedItems);
-};
-
-
+  const value = e.target.value;
+  console.log('Option selected:', value);
+    setSelectedItems(prevItems => ({
+      ...prevItems,
+      [index]: { 
+        text: value,
+        imageUrl: value === "option2" ? "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg" : undefined
+      }
+    }));
+  };
+  // const newSelectedItems = [...selectedItems];
+  // newSelectedItems[index] = e.target.value;
+  // setSelectedItems(newSelectedItems);
 
   const handleAddDropdown = () => {
     setDropdownCount(dropdownCount + 1);
@@ -39,7 +50,7 @@ const handleSelectChange= (index, e) => {
   };
   
 //============================= BUILD FORM =====================================
-  return <>
+  return (<>
   <form className="new-item">
         <h1>Patient Education</h1>
 
@@ -59,18 +70,36 @@ const handleSelectChange= (index, e) => {
           <label htmlFor={`item${index}`}>Add Education Point</label>
           <select 
             id={`item${index}`}
-            value={selectedItems[index] || ''}
+            value={selectedItems[index]?.text || ''}
             onChange={(e) => handleSelectChange(index, e)}>
             {/*Add education options here */}
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="option1">Dietary Guidelines</option> {/*text*/}
+            <option value="option2"> Incision Care</option> {/*text and image*/}
+            <option value="option3">Exercise Guidelines</option> {/*text and video*/}
           </select>
+          {selectedItems[index]?.text === "option2" && (
+              <>
+                <div className="form-row">
+                  <label htmlFor={`textbox${index}`}>Textbox:</label>
+                  <input 
+                  type="text" 
+                  id={`textbox${index}`} 
+                  placeholder="Incision placement and care." />
+                </div>
+                <div className="form-row">
+                  <img
+                    src={selectedItems[index]?.imageUrl}
+                    alt="Predefined Image"
+                  />
+                </div>
+              </>
+            )}
         </div>
       ))}
         <button type="button" onClick={handleAddDropdown}> + </button>
       </form>
   </>
+  )
 }
 
 export default App
