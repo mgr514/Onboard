@@ -1,12 +1,18 @@
 import "./style.css"
 import React, { useState, useEffect } from 'react';
+//import SeparatePage from './SeparatePage';
+
+//TO DO
+// render option 2 text and image as page
+  //set-up react router
+  //create file for page and import file?? (ex above)
 
 function App() {
   // ============================ CONST =======================================
   const [formTitle, setFormTitle] = useState('localStorage.getItem'); 
   const [selectedItems, setSelectedItems] = useState([
     { 
-      text: "Hello World",
+      text: "",
       imageUrl: "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg"
     }
   ])
@@ -40,9 +46,17 @@ const handleSelectChange= (index, e) => {
       }
     }));
   };
-  // const newSelectedItems = [...selectedItems];
-  // newSelectedItems[index] = e.target.value;
-  // setSelectedItems(newSelectedItems);
+
+  const handleTextboxChange = (index, e) => {
+    const newText = e.target.value;
+    setSelectedItems((prevItems) => ({
+      ...prevItems,
+      [index]: {
+        ...prevItems[index],
+        textbox: newText
+      }
+    }));
+  };
 
   const handleAddDropdown = () => {
     setDropdownCount(dropdownCount + 1);
@@ -84,7 +98,8 @@ const handleSelectChange= (index, e) => {
                   <input 
                   type="text" 
                   id={`textbox${index}`} 
-                  placeholder="Incision placement and care." />
+                  placeholder="Incision placement and care."
+                  onChange={(e) => handleTextboxChange(index, e)} />
                 </div>
                 <div className="form-row">
                   <img
