@@ -3,9 +3,12 @@ import React, { useState, useEffect } from 'react';
 //import SeparatePage from './SeparatePage';
 
 //TO DO
-// render option 2 text and image as page
+//render option 2 text and image as page
   //set-up react router
   //create file for page and import file?? (ex above)
+
+//ISSUES
+  // Maybe need a different kind of text box
 
 function App() {
   // ============================ CONST =======================================
