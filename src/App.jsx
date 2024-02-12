@@ -1,73 +1,49 @@
 import "./style.css"
 import React, { useState, useEffect } from 'react';
-//import SeparatePage from './SeparatePage';
 
-//TO DO
-//render option 2 text and image as page
-  //set-up react router
-  //create file for page and import file?? (ex above)
+//========================== TO DO ====================================
 
+//1. Create a state for the current point viewed
+  // Select a point from the list of points that you're looking at. It should be something like this:
+  // First keep track of the current point we're viewing
+    // const [currentPoint, setCurrentPoint] = useState(0);
+// Grab that point for easier access
+  // const point = points[currentPoint];
+// Render that point so it's easy to see
+  // <div>
+    //   {point.text}
+    //   {point.imageUrl}
+  // </div>
 
 function App() {
   // ============================ CONST =======================================
   const [formTitle, setFormTitle] = useState(localStorage.getItem('')); 
-  // const [points, setPoints] = useState([
-  //   { 
-  //     text: "",
-  //     imageUrl: "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg"
-  //   }
-  // ])
+  const [points, setPoints] = useState([
+    { 
+      text: "",
+      imageUrl: "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg"
+    }
+  ]);
   const [currentPoint, setCurrentPoint] = useState(0);
-  const point = points[currentPoint];
-  //const [dropdownCount, setDropdownCount] = useState(1);
- 
-
 
   //========================== FUNCTIONS =============================================
-  // useEffect(() => {
-  //   const storedTitle = localStorage.getItem('formTitle');//('');
-  //   if (storedTitle) {
-  //     setFormTitle(storedTitle);
-  //   }
-  // }, []);
-
 
   const handleFormTitleChange = (e) => {
     const newTitle = e.target.value;
     setFormTitle(newTitle)
     localStorage.setItem('formTitle', newTitle)
-  }
-
-// const handleSelectChange= (index, e) => {
-//   const value = e.target.value;
-//   console.log('Option selected:', value);
-//     setPoints(prevItems => ({
-//       ...prevItems,
-//       [index]: { 
-//         text: value,
-//         imageUrl: value === "option2" ? "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg" : undefined
-//       }
-//     }));
-//   };
+  };
 
   const handleText = (index, e) => {
     const newText = e.target.value;
-    setPoints((prevItems) => ({
-      ...prevItems,
-      [index]: {
-        ...prevItems[index],
-        text: newText
-      }
-    }));
+    setCurrentPoint(newText);
   };
 
+  const handleAddPoint = () => {
   const newPoints = [...points, { text: "", imageUrl: "" }];
     setPoints(newPoints); 
-  // const handleAddDropdown = () => {
-  //   setDropdownCount(dropdownCount + 1);
-  //   console.log('Button Clicked!')
-  // };
-  
+  };
+
 //============================= BUILD FORM =====================================
   return (<>
   <form className="new-item">
@@ -99,11 +75,6 @@ function App() {
                 <div className="form-row">
                 {point.text}
                 {point.imageUrl}
-                  {/* <input 
-                  type="text" 
-                  id={`textbox${index}`} 
-                  placeholder="Incision placement and care."
-                  onChange={(e) => handleTextboxChange(index, e)} /> */}
                 </div>
               </>
             )}
@@ -117,7 +88,3 @@ function App() {
 
 export default App
 
-            {/*Add education options here 
-            <option value="option1">Dietary Guidelines</option> 
-            <option value="option2"> Incision Care</option> 
-            <option value="option3">Exercise Guidelines</option> text and video*/}
