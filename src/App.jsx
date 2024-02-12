@@ -7,29 +7,29 @@ import React, { useState, useEffect } from 'react';
   //set-up react router
   //create file for page and import file?? (ex above)
 
-//ISSUES
-  // Maybe need a different kind of text box
 
 function App() {
   // ============================ CONST =======================================
-  const [formTitle, setFormTitle] = useState('localStorage.getItem'); 
-  const [selectedItems, setSelectedItems] = useState([
-    { 
-      text: "",
-      imageUrl: "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg"
-    }
-  ])
-  const [dropdownCount, setDropdownCount] = useState(1);
+  const [formTitle, setFormTitle] = useState(localStorage.getItem('')); 
+  // const [points, setPoints] = useState([
+  //   { 
+  //     text: "",
+  //     imageUrl: "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg"
+  //   }
+  // ])
+  const [currentPoint, setCurrentPoint] = useState(0);
+  const point = points[currentPoint];
+  //const [dropdownCount, setDropdownCount] = useState(1);
  
 
 
   //========================== FUNCTIONS =============================================
-  useEffect(() => {
-    const storedTitle = localStorage.getItem('formTitle');//('');
-    if (storedTitle) {
-      setFormTitle(storedTitle);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedTitle = localStorage.getItem('formTitle');//('');
+  //   if (storedTitle) {
+  //     setFormTitle(storedTitle);
+  //   }
+  // }, []);
 
 
   const handleFormTitleChange = (e) => {
@@ -38,33 +38,35 @@ function App() {
     localStorage.setItem('formTitle', newTitle)
   }
 
-const handleSelectChange= (index, e) => {
-  const value = e.target.value;
-  console.log('Option selected:', value);
-    setSelectedItems(prevItems => ({
-      ...prevItems,
-      [index]: { 
-        text: value,
-        imageUrl: value === "option2" ? "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg" : undefined
-      }
-    }));
-  };
+// const handleSelectChange= (index, e) => {
+//   const value = e.target.value;
+//   console.log('Option selected:', value);
+//     setPoints(prevItems => ({
+//       ...prevItems,
+//       [index]: { 
+//         text: value,
+//         imageUrl: value === "option2" ? "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg" : undefined
+//       }
+//     }));
+//   };
 
-  const handleTextboxChange = (index, e) => {
+  const handleText = (index, e) => {
     const newText = e.target.value;
-    setSelectedItems((prevItems) => ({
+    setPoints((prevItems) => ({
       ...prevItems,
       [index]: {
         ...prevItems[index],
-        textbox: newText
+        text: newText
       }
     }));
   };
 
-  const handleAddDropdown = () => {
-    setDropdownCount(dropdownCount + 1);
-    console.log('Button Clicked!')
-  };
+  const newPoints = [...points, { text: "", imageUrl: "" }];
+    setPoints(newPoints); 
+  // const handleAddDropdown = () => {
+  //   setDropdownCount(dropdownCount + 1);
+  //   console.log('Button Clicked!')
+  // };
   
 //============================= BUILD FORM =====================================
   return (<>
@@ -80,44 +82,42 @@ const handleSelectChange= (index, e) => {
             value={formTitle}
             onChange={handleFormTitleChange}
           />
+          <select>
+            id={`item${index}`}
+            value={points[index]?.text || ''}
+            onChange={(e) => handleText(index, e)}
+            {points.map((point, i) => <option value={i}>{point.text}</option>)}
+          </select>
         </div>
 
-       {Array.from({ length: dropdownCount }).map((_, index) => (  
+       {Array.from().map((_, index) => (  
         <div className="form-row" key={index}>
           <label htmlFor={`item${index}`}>Add Education Point</label>
-          <select 
-            id={`item${index}`}
-            value={selectedItems[index]?.text || ''}
-            onChange={(e) => handleSelectChange(index, e)}>
-            {/*Add education options here */}
-            <option value="option1">Dietary Guidelines</option> {/*text*/}
-            <option value="option2"> Incision Care</option> {/*text and image*/}
-            <option value="option3">Exercise Guidelines</option> {/*text and video*/}
-          </select>
-          {selectedItems[index]?.text === "option2" && (
+
+          {points[index]?.text === "option2" && (
               <>
                 <div className="form-row">
-                  <label htmlFor={`textbox${index}`}>Textbox:</label>
-                  <input 
+                {point.text}
+                {point.imageUrl}
+                  {/* <input 
                   type="text" 
                   id={`textbox${index}`} 
                   placeholder="Incision placement and care."
-                  onChange={(e) => handleTextboxChange(index, e)} />
-                </div>
-                <div className="form-row">
-                  <img
-                    src={selectedItems[index]?.imageUrl}
-                    alt="Predefined Image"
-                  />
+                  onChange={(e) => handleTextboxChange(index, e)} /> */}
                 </div>
               </>
             )}
         </div>
       ))}
-        <button type="button" onClick={handleAddDropdown}> + </button>
+        <button type="button" /*onClick={}*/> + </button>
       </form>
   </>
   )
 }
 
 export default App
+
+            {/*Add education options here 
+            <option value="option1">Dietary Guidelines</option> 
+            <option value="option2"> Incision Care</option> 
+            <option value="option3">Exercise Guidelines</option> text and video*/}
