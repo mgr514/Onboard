@@ -21,7 +21,7 @@ function App() {
   const [points, setPoints] = useState([
     { 
       text: "",
-      imageUrl: "https://media.sciencephoto.com/image/m5510541/800wm/M5510541.jpg"
+      imageUrl: ""
     }
   ]);
   const [currentPoint, setCurrentPoint] = useState(0);
