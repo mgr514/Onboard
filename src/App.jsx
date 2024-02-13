@@ -1,5 +1,5 @@
 import "./style.css"
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 //========================== TO DO ====================================
 
@@ -59,11 +59,11 @@ function App() {
             value={formTitle}
             onChange={handleFormTitleChange}
           />
-          </div>
+        </div>
 
         <div className="form-row">
-          <label htmlFor={`item${index}`}>Add Education Point</label>
-          <select id="educationPoint" onChange={(e) =>handleTextChange}>
+          <label htmlFor={`item`}>Add Education Point</label>
+          <select id="educationPoint" onChange={(e) => handleTextChange(e.target.value, e)}>
             {points.map((point, index) => (
               <option key={index} value={index}>
                 {point.text}, {point.imageUrl}
