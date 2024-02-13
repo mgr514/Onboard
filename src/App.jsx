@@ -17,14 +17,14 @@ import React, { useState, useEffect } from 'react';
 
 function App() {
   // ============================ CONST =======================================
-  const [formTitle, setFormTitle] = useState(localStorage.getItem('')); 
+  const [formTitle, setFormTitle] = useState(localStorage.getItem('formTitle')); 
   const [points, setPoints] = useState([
     { 
       text: "",
       imageUrl: ""
     }
   ]);
-  const [currentPoint, setCurrentPoint] = useState(0);
+  //const [currentPoint, setCurrentPoint] = useState(0);
 
   //========================== FUNCTIONS =============================================
 
@@ -34,9 +34,10 @@ function App() {
     localStorage.setItem('formTitle', newTitle)
   };
 
-  const handleText = (index, e) => {
-    const newText = e.target.value;
-    setCurrentPoint(newText);
+  const handleTextChange = (index, e) => {
+    const newPoints = [...points]
+    newPoints[index].text = e.target.value
+    setPoints(newPoints);
   };
 
   const handleAddPoint = () => {
@@ -58,12 +59,12 @@ function App() {
             value={formTitle}
             onChange={handleFormTitleChange}
           />
-          <select>
+          <input>
             id={`item${index}`}
             value={points[index]?.text || ''}
             onChange={(e) => handleText(index, e)}
-            {points.map((point, i) => <option value={i}>{point.text}</option>)}
-          </select>
+            {points.map((point, index) => <option value={i}>{point.text}</option>)}
+          </input>
         </div>
 
        {Array.from().map((_, index) => (  
@@ -80,11 +81,10 @@ function App() {
             )}
         </div>
       ))}
-        <button type="button" /*onClick={}*/> + </button>
+        <button type="button" onClick={handleAddPoint}> + </button>
       </form>
   </>
   )
 }
 
 export default App
-
