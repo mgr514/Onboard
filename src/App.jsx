@@ -59,28 +59,19 @@ function App() {
             value={formTitle}
             onChange={handleFormTitleChange}
           />
-          <input>
-            id={`item${index}`}
-            value={points[index]?.text || ''}
-            onChange={(e) => handleText(index, e)}
-            {points.map((point, index) => <option value={i}>{point.text}</option>)}
-          </input>
-        </div>
+          </div>
 
-       {Array.from().map((_, index) => (  
-        <div className="form-row" key={index}>
+        <div className="form-row">
           <label htmlFor={`item${index}`}>Add Education Point</label>
-
-          {points[index]?.text === "option2" && (
-              <>
-                <div className="form-row">
-                {point.text}
-                {point.imageUrl}
-                </div>
-              </>
-            )}
+          <select id="educationPoint" onChange={(e) =>handleTextChange}>
+            {points.map((point, index) => (
+              <option key={index} value={index}>
+                {point.text}, {point.imageUrl}
+              </option>
+            ))}
+          </select>
         </div>
-      ))}
+
         <button type="button" onClick={handleAddPoint}> + </button>
       </form>
   </>
