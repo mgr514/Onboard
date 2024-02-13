@@ -66,7 +66,8 @@ function App() {
           <select id="educationPoint" onChange={(e) => handleTextChange(e.target.value, e)}>
             {points.map((point, index) => (
               <option key={index} value={index}>
-                {point.text}, {point.imageUrl}
+                {point.text}
+                {point.imageUrl}
               </option>
             ))}
           </select>
