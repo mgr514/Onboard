@@ -24,7 +24,7 @@ function App() {
       imageUrl: ""
     }
   ]);
-  //const [currentPoint, setCurrentPoint] = useState(0);
+  const [currentPoint, setCurrentPoint] = useState(0);
 
   //========================== FUNCTIONS =============================================
 
