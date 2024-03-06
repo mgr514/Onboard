@@ -34,17 +34,18 @@ function App() {
     localStorage.setItem('formTitle', newTitle)
   };
 
-  const handleTextChange = (index, e) => {
+  const handlePointSelect = (index, e) => {
     const newPoints = [...points]
     newPoints[index].text = e.target.value
     setPoints(newPoints);
+    setCurrentPoint(index);
   };
 
   const handleAddPoint = () => {
   const newPoints = [...points, { text: "", imageUrl: "" }];
     setPoints(newPoints); 
   };
-
+const titles = Array.from (Array(points.length), (_,i) => `${i+ 1}`)
 //============================= BUILD FORM =====================================
   return (<>
   <form className="new-item">
@@ -63,16 +64,44 @@ function App() {
 
         <div className="form-row">
           <label htmlFor={`item`}>Add Education Point</label>
-          <select id="educationPoint" onChange={(e) => handleTextChange(e.target.value, e)}>
-            {points.map((point, index) => (
+          <select id="educationPoint" onChange={(e) => handlePointSelect(parseInt(e.target.value, e))}>
+            {/* {points.map((point, index) => (
               <option key={index} value={index}>
                 {point.text}
                 {point.imageUrl}
-              </option>
+              </option> */}
+            {titles.map((title, index) => (
+            <option key={index} value={index}>
+              {title}
+            </option>
             ))}
           </select>
         </div>
 
+        {currentPoint !== null && (
+        <div className="form-row">
+          <input
+            type="text"
+            placeholder="Enter text"
+            value={points[currentPoint].text}
+            onChange={(e) => {
+              const newPoints = [...points];
+              newPoints[currentPoint].text = e.target.value;
+              setPoints(newPoints);
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Enter image URL"
+            value={points[currentPoint].imageUrl}
+            onChange={(e) => {
+              const newPoints = [...points];
+              newPoints[currentPoint].imageUrl = e.target.value;
+              setPoints(newPoints);
+            }}
+          />
+        </div>
+      )}
         <button type="button" onClick={handleAddPoint}> + </button>
       </form>
   </>
