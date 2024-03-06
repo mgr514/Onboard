@@ -3,21 +3,12 @@ import React, { useState } from 'react';
 
 //========================== TO DO ====================================
 
-//1. Create a state for the current point viewed
-  // Select a point from the list of points that you're looking at. It should be something like this:
-  // First keep track of the current point we're viewing
-    // const [currentPoint, setCurrentPoint] = useState(0);
-// Grab that point for easier access
-  // const point = points[currentPoint];
-// Render that point so it's easy to see
-  // <div>
-    //   {point.text}
-    //   {point.imageUrl}
-  // </div>
+
 
 function App() {
   // ============================ CONST =======================================
   const [formTitle, setFormTitle] = useState(localStorage.getItem('formTitle')); 
+  const [pointTitle, setPointTitle] = useState("text");
   const [points, setPoints] = useState([
     { 
       text: "",
@@ -34,18 +25,20 @@ function App() {
     localStorage.setItem('formTitle', newTitle)
   };
 
-  const handlePointSelect = (index, e) => {
-    const newPoints = [...points]
-    newPoints[index].text = e.target.value
+  const handlePointSelect = (index) => {
+    const option = e.target.value;
+    const newPoints = [...points, { type, text: "", imageUrl: "", videoUrl: "" }]
+    //newPoints[index].type = option
     setPoints(newPoints);
     setCurrentPoint(index);
+    setPointTitle(e.target.value);
   };
 
   const handleAddPoint = () => {
-  const newPoints = [...points, { text: "", imageUrl: "" }];
+  const newPoints = [...points, { type: pointTitle, text: "", imageUrl: "", videoUrl: "" }];
     setPoints(newPoints); 
+    setPointTitle("")
   };
-const titles = Array.from (Array(points.length), (_,i) => `${i+ 1}`)
 //============================= BUILD FORM =====================================
   return (<>
   <form className="new-item">
@@ -64,42 +57,74 @@ const titles = Array.from (Array(points.length), (_,i) => `${i+ 1}`)
 
         <div className="form-row">
           <label htmlFor={`item`}>Add Education Point</label>
-          <select id="educationPoint" onChange={(e) => handlePointSelect(parseInt(e.target.value, e))}>
+          <select id="educationPoint" value={pointTitle} onChange={(e) => handlePointSelect(parseInt(e.target.value, e))}>
             {/* {points.map((point, index) => (
               <option key={index} value={index}>
                 {point.text}
                 {point.imageUrl}
               </option> */}
-            {titles.map((title, index) => (
+            {/* {titles.map((title, index) => (
             <option key={index} value={index}>
               {title}
             </option>
-            ))}
+            ))} */}
+            <option value="text">Text</option>
+            <option value="text_and_image">Text and Image</option>
+            <option value="video">Video</option>
           </select>
         </div>
 
         {currentPoint !== null && (
         <div className="form-row">
+          {points[currentPoint].type === "text" && (
+            <input
+              type="text"
+              placeholder="Enter text"
+              value={points[currentPoint].text}
+              onChange={(e) => {
+                const newPoints = [...points];
+                newPoints[currentPoint].text = e.target.value;
+                setPoints(newPoints);
+              }}
+            />
+          )}
+          {points[currentPoint].type === "text_and_image" && (
+            <>
+            <input
+              type="text"
+              placeholder="Enter image URL"
+              value={points[currentPoint].imageUrl}
+              onChange={(e) => {
+                const newPoints = [...points];
+                newPoints[currentPoint].imageUrl = e.target.value;
+                setPoints(newPoints);
+              }}
+            />
+            <input
+              type="text"
+              placeholder="Enter text"
+              value={points[currentPoint].text}
+              onChange={(e) => {
+                const newPoints = [...points];
+                newPoints[currentPoint].text = e.target.value;
+                setPoints(newPoints);
+              }}
+            />
+          </>
+          )}
+         
+         {points[currentPoint].type === "video" && (
           <input
             type="text"
-            placeholder="Enter text"
-            value={points[currentPoint].text}
+            placeholder="Enter video URL"
+            value={points[currentPoint].videoUrl}
             onChange={(e) => {
               const newPoints = [...points];
-              newPoints[currentPoint].text = e.target.value;
+              newPoints[currentPoint].videoUrl = e.target.value;
               setPoints(newPoints);
             }}
           />
-          <input
-            type="text"
-            placeholder="Enter image URL"
-            value={points[currentPoint].imageUrl}
-            onChange={(e) => {
-              const newPoints = [...points];
-              newPoints[currentPoint].imageUrl = e.target.value;
-              setPoints(newPoints);
-            }}
-          />
+         )}
         </div>
       )}
         <button type="button" onClick={handleAddPoint}> + </button>
