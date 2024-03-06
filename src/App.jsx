@@ -25,13 +25,13 @@ function App() {
     localStorage.setItem('formTitle', newTitle)
   };
 
-  const handlePointSelect = (index) => {
+  const handlePointSelect = (e) => {
     const option = e.target.value;
     const newPoints = [...points, { type, text: "", imageUrl: "", videoUrl: "" }]
     //newPoints[index].type = option
     setPoints(newPoints);
-    setCurrentPoint(index);
-    setPointTitle(e.target.value);
+    setCurrentPoint(newPoints.length - 1);
+    setPointTitle(index);
   };
 
   const handleAddPoint = () => {
