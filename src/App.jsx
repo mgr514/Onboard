@@ -2,18 +2,24 @@ import "./style.css"
 import React, { useState } from 'react';
 
 //========================== TO DO ====================================
-
+// 1. install tailwind css
+// 2. User UI:
+    //create a state for user view/editor view ( isEditing)
+    //toggle button for isEditing
+    //switch between textbox/just text under each of these conditional renders
+// 3. Replace handlePointSelect (already removed) with 2 functions: handleNext point and handle PreviousPoint
 
 
 function App() {
   // ============================ CONST =======================================
   const [formTitle, setFormTitle] = useState(localStorage.getItem('formTitle')); 
-  const [pointTitle, setPointTitle] = useState("text");
+  const [pointType, setPointType] = useState(); 
   const [points, setPoints] = useState([
     { 
-      text: "",
-      imageUrl: ""
-    }
+      type:"text",
+      text: "hello",
+      imageUrl: "",
+    },
   ]);
   const [currentPoint, setCurrentPoint] = useState(0);
 
@@ -25,19 +31,14 @@ function App() {
     localStorage.setItem('formTitle', newTitle)
   };
 
-  const handlePointSelect = (e) => {
-    const option = e.target.value;
-    const newPoints = [...points, { type, text: "", imageUrl: "", videoUrl: "" }]
-    //newPoints[index].type = option
-    setPoints(newPoints);
-    setCurrentPoint(newPoints.length - 1);
-    setPointTitle(index);
-  };
+  //const handleNextPoint
+
+  //const handlePreviousPoint
 
   const handleAddPoint = () => {
-  const newPoints = [...points, { type: pointTitle, text: "", imageUrl: "", videoUrl: "" }];
+  const newPoints = [...points, { type: pointType, text: pointTitle, imageUrl: "", videoUrl: "" }];
     setPoints(newPoints); 
-    setPointTitle("")
+    setCurrentPoint(newPoints.length - 1)
   };
 //============================= BUILD FORM =====================================
   return (<>
@@ -57,17 +58,18 @@ function App() {
 
         <div className="form-row">
           <label htmlFor={`item`}>Add Education Point</label>
-          <select id="educationPoint" value={pointTitle} onChange={(e) => handlePointSelect(parseInt(e.target.value, e))}>
-            {/* {points.map((point, index) => (
+          <select id="pointSelect" value={currentPoint}
+           onChange={(e) => setCurrentPoint(e.target.value)}>
+
+            {points.map((point, index) => (
               <option key={index} value={index}>
                 {point.text}
                 {point.imageUrl}
-              </option> */}
-            {/* {titles.map((title, index) => (
-            <option key={index} value={index}>
-              {title}
-            </option>
-            ))} */}
+              </option> 
+            ))}
+          </select>
+
+          <select id="educationPoint" value={pointType} onChange={(e) => setPointType(e.target.value)}>
             <option value="text">Text</option>
             <option value="text_and_image">Text and Image</option>
             <option value="video">Video</option>
@@ -77,14 +79,15 @@ function App() {
         {currentPoint !== null && (
         <div className="form-row">
           {points[currentPoint].type === "text" && (
+            // 2. UI BIT HERE
             <input
               type="text"
               placeholder="Enter text"
               value={points[currentPoint].text}
               onChange={(e) => {
-                const newPoints = [...points];
+                const newPoints = {...points};
                 newPoints[currentPoint].text = e.target.value;
-                setPoints(newPoints);
+                setPoints(newPoints)
               }}
             />
           )}
@@ -128,9 +131,20 @@ function App() {
         </div>
       )}
         <button type="button" onClick={handleAddPoint}> + </button>
+
+        {/* <button onClick={handlePreviousPoint}> 👈 </button>
+        <button onClick={handleNextPoint}> 👉 </button> */}
       </form>
   </>
   )
 }
 
 export default App
+
+  // const handlePointSelect = (e) => {
+  //   const option = e.target.value;
+  //   const newPoints = [...points, { type, text: "", imageUrl: "", videoUrl: "" }]
+  //   //newPoints[index].type = option
+  //   setPoints(newPoints);
+  //   setCurrentPoint(newPoints.length - 1);
+  // };
