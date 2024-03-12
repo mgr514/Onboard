@@ -31,9 +31,13 @@ function App() {
     localStorage.setItem('formTitle', newTitle)
   };
 
-  //const handleNextPoint
+  const handleNextPoint = () => {
+    setCurrentPoint(prevPoint => (prevPoint === points.length - 1 ? 0 : prevPoint + 1));
+};
 
-  //const handlePreviousPoint
+  const handlePreviousPoint = () => {
+    setCurrentPoint(prevPoint => (prevPoint === points.length - 1 ? 0 : prevPoint + 1));
+  }
 
   const handleAddPoint = () => {
   const newPoints = [...points, { type: pointType, text: pointTitle, imageUrl: "", videoUrl: "" }];
@@ -132,8 +136,8 @@ function App() {
       )}
         <button type="button" onClick={handleAddPoint}> + </button>
 
-        {/* <button onClick={handlePreviousPoint}> 👈 </button>
-        <button onClick={handleNextPoint}> 👉 </button> */}
+        <button onClick={handlePreviousPoint}> 👈 </button>
+        <button onClick={handleNextPoint}> 👉 </button> 
       </form>
   </>
   )
