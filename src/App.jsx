@@ -2,12 +2,9 @@ import "./style.css"
 import React, { useState } from 'react';
 
 //========================== TO DO ====================================
-// 1. install tailwind css
+
 // 2. User UI:
-    //create a state for user view/editor view ( isEditing)
-    //toggle button for isEditing
     //switch between textbox/just text under each of these conditional renders
-// 3. Replace handlePointSelect (already removed) with 2 functions: handleNext point and handle PreviousPoint
 
 
 function App() {
@@ -89,7 +86,9 @@ function App() {
         {currentPoint !== null && (
         <div className="form-row">
           {points[currentPoint].type === "text" && isEditing &&(
+            <>
             // 2. UI BIT HERE
+          {isEditing ? (
             <input
               type="text"
               placeholder="Enter text"
@@ -99,10 +98,14 @@ function App() {
                 newPoints[currentPoint].text = e.target.value;
                 setPoints(newPoints)
               }}
-            />
+            /> 
+            ) : ( )}
+            </>
           )}
+
           {points[currentPoint].type === "text_and_image" && isEditing && (
             <>
+            {isEditing ? (
             <input
               type="text"
               placeholder="Enter image URL"
@@ -113,6 +116,7 @@ function App() {
                 setPoints(newPoints);
               }}
             />
+
             <input
               type="text"
               placeholder="Enter text"
@@ -123,10 +127,13 @@ function App() {
                 setPoints(newPoints);
               }}
             />
+            ) : ( )}
           </>
           )}
          
          {points[currentPoint].type === "video" && isEditing && (
+          <>
+          {isEditing ? (
           <input
             type="text"
             placeholder="Enter video URL"
@@ -137,6 +144,8 @@ function App() {
               setPoints(newPoints);
             }}
           />
+          ) : ( )}
+          </>
          )}
         </div>
       )}
