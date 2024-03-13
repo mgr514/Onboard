@@ -87,7 +87,6 @@ function App() {
         <div className="form-row">
           {points[currentPoint].type === "text" && isEditing &&(
             <>
-            // 2. UI BIT HERE
           {isEditing ? (
             <input
               type="text"
@@ -162,10 +161,3 @@ function App() {
 
 export default App
 
-  // const handlePointSelect = (e) => {
-  //   const option = e.target.value;
-  //   const newPoints = [...points, { type, text: "", imageUrl: "", videoUrl: "" }]
-  //   //newPoints[index].type = option
-  //   setPoints(newPoints);
-  //   setCurrentPoint(newPoints.length - 1);
-  // };
