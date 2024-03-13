@@ -22,6 +22,7 @@ function App() {
     },
   ]);
   const [currentPoint, setCurrentPoint] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
 
   //========================== FUNCTIONS =============================================
 
@@ -43,7 +44,12 @@ function App() {
   const newPoints = [...points, { type: pointType, text: pointTitle, imageUrl: "", videoUrl: "" }];
     setPoints(newPoints); 
     setCurrentPoint(newPoints.length - 1)
+    setIsEditing(true);
   };
+
+  const handleToggleEditing = () => {
+    setIsEditing (editing => !editing)
+  }
 //============================= BUILD FORM =====================================
   return (<>
   <form className="new-item">
@@ -82,7 +88,7 @@ function App() {
 
         {currentPoint !== null && (
         <div className="form-row">
-          {points[currentPoint].type === "text" && (
+          {points[currentPoint].type === "text" && isEditing &&(
             // 2. UI BIT HERE
             <input
               type="text"
@@ -95,7 +101,7 @@ function App() {
               }}
             />
           )}
-          {points[currentPoint].type === "text_and_image" && (
+          {points[currentPoint].type === "text_and_image" && isEditing && (
             <>
             <input
               type="text"
@@ -120,7 +126,7 @@ function App() {
           </>
           )}
          
-         {points[currentPoint].type === "video" && (
+         {points[currentPoint].type === "video" && isEditing && (
           <input
             type="text"
             placeholder="Enter video URL"
@@ -138,6 +144,8 @@ function App() {
 
         <button onClick={handlePreviousPoint}> 👈 </button>
         <button onClick={handleNextPoint}> 👉 </button> 
+
+        <button onClick={handleToggleEditing}> Finish Editing </button> 
       </form>
   </>
   )
