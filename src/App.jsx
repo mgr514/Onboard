@@ -145,7 +145,7 @@ function App() {
         <button onClick={handlePreviousPoint}> 👈 </button>
         <button onClick={handleNextPoint}> 👉 </button> 
 
-        <button onClick={handleToggleEditing}> Finish Editing </button> 
+        <button onClick={handleToggleEditing}> {isEditing ? "Finish Editing" : "Edit"} </button> 
       </form>
   </>
   )
