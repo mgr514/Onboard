@@ -52,13 +52,14 @@ function App() {
   //============================= BUILD FORM =====================================
   return (
     <>
-      <form className="new-item">
+      <form className="new-item mx-auto max-w-sm">
         <h1>Patient Education</h1>
 
-        <div className="form-row">
+        <div className="form-row py-2">
           <label htmlFor="formTitle"></label>
           <input
             type="text"
+            className="text-lg font-bold border border-gray-900 border-solid focus:outline-none rounded p-1"
             id="formTitle"
             placeholder="Enter Education Title"
             value={formTitle}
@@ -66,9 +67,12 @@ function App() {
           />
         </div>
 
-        <div className="form-row">
-          <label htmlFor={`item`}>Add Education Point</label>
+        <div className="form-row py-2">
+          <label htmlFor={`item`} className="mr-2">
+            Add Education Point:
+          </label>
           <select
+            className="py-1 border border-gray-300 border-solid mr-2"
             id="pointSelect"
             value={currentPoint}
             onChange={(e) => setCurrentPoint(e.target.value)}
@@ -83,6 +87,7 @@ function App() {
 
           <select
             id="educationPoint"
+            className="py-1 border border-gray-300 border-solid"
             value={pointType}
             onChange={(e) => setPointType(e.target.value)}
           >
@@ -93,11 +98,12 @@ function App() {
         </div>
 
         {currentPoint !== null && (
-          <div className="form-row">
+          <div className="form-row py-2">
             {points[currentPoint].type === "text" && (
               <>
                 {isEditing ? (
                   <input
+                    className="border-2 border-gray-300 bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                     type="text"
                     placeholder="Enter text"
                     value={points[currentPoint].text}
@@ -119,6 +125,7 @@ function App() {
                   <>
                     <input
                       type="text"
+                      className="border-2 border-gray-300 bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                       placeholder="Enter image URL"
                       value={points[currentPoint].imageUrl}
                       onChange={(e) => {
@@ -130,6 +137,7 @@ function App() {
 
                     <input
                       type="text"
+                      className="border-2 border-gray-300 bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                       placeholder="Enter text"
                       value={points[currentPoint].text}
                       onChange={(e) => {
@@ -150,6 +158,7 @@ function App() {
                 {isEditing ? (
                   <input
                     type="text"
+                    className="border-2 border-gray-300 bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
                     placeholder="Enter video URL"
                     value={points[currentPoint].videoUrl}
                     onChange={(e) => {
@@ -167,18 +176,34 @@ function App() {
         )}
         <button
           type="button"
-          className="m-4 bg-gray-50 rounded-md p-2"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded py-2 mr-4"
           onClick={handleAddPoint}
         >
           +
         </button>
 
-        <button onClick={handlePreviousPoint}> 👈 </button>
-        <button onClick={handleNextPoint}> 👉 </button>
+        <button
+          type="button"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded py-2 mr-1"
+          onClick={handlePreviousPoint}
+        >
+          👈
+        </button>
 
-        <button onClick={handleToggleEditing}>
-          {" "}
-          {isEditing ? "Finish Editing" : "Edit"}{" "}
+        <button
+          type="button"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded py-2 mr-4"
+          onClick={handleNextPoint}
+        >
+          👉
+        </button>
+
+        <button
+          type="button"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded py-2 mr-1"
+          onClick={handleToggleEditing}
+        >
+          {isEditing ? "Finish Editing" : "Edit"}
         </button>
       </form>
     </>
