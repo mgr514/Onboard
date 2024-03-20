@@ -14,6 +14,7 @@ function App() {
       type: "text",
       text: "hello",
       imageUrl: "",
+      videoUrl: "",
     },
   ]);
   const [currentPoint, setCurrentPoint] = useState(0);
@@ -55,7 +56,7 @@ function App() {
       <form className="new-item mx-auto max-w-sm">
         <h1>Patient Education</h1>
 
-        <div className="form-row py-2">
+        <div className="{`form-row py-2">
           <label htmlFor="formTitle"></label>
           <input
             type="text"
@@ -98,23 +99,23 @@ function App() {
         </div>
 
         {currentPoint !== null && (
-          <div className="form-row py-2">
+          <div className="form-row py-4 border border-gray-300 rounded mb-4">
             {points[currentPoint].type === "text" && (
               <>
                 {isEditing ? (
                   <input
-                    className="border-2 border-gray-300 bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
                     type="text"
                     placeholder="Enter text"
                     value={points[currentPoint].text}
                     onChange={(e) => {
-                      const newPoints = { ...points };
+                      const newPoints = [...points];
                       newPoints[currentPoint].text = e.target.value;
                       setPoints(newPoints);
                     }}
                   />
                 ) : (
-                  <div>hello world</div>
+                  <div>{points[currentPoint].text}</div>
                 )}
               </>
             )}
@@ -125,7 +126,7 @@ function App() {
                   <>
                     <input
                       type="text"
-                      className="border-2 border-gray-300 bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                      className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
                       placeholder="Enter image URL"
                       value={points[currentPoint].imageUrl}
                       onChange={(e) => {
@@ -137,7 +138,7 @@ function App() {
 
                     <input
                       type="text"
-                      className="border-2 border-gray-300 bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                      className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
                       placeholder="Enter text"
                       value={points[currentPoint].text}
                       onChange={(e) => {
@@ -148,7 +149,7 @@ function App() {
                     />
                   </>
                 ) : (
-                  <div>hello world</div>
+                  <div>{points[currentPoint].text}</div>
                 )}
               </>
             )}
@@ -158,9 +159,9 @@ function App() {
                 {isEditing ? (
                   <input
                     type="text"
-                    className="border-2 border-gray-300 bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+                    className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500 mb-2"
                     placeholder="Enter video URL"
-                    value={points[currentPoint].videoUrl}
+                    value={points[currentPoint]?.videoUrl || ""}
                     onChange={(e) => {
                       const newPoints = [...points];
                       newPoints[currentPoint].videoUrl = e.target.value;
@@ -168,7 +169,7 @@ function App() {
                     }}
                   />
                 ) : (
-                  <div></div>
+                  <div>{points[currentPoint].text}</div>
                 )}
               </>
             )}
@@ -176,7 +177,7 @@ function App() {
         )}
         <button
           type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded py-2 mr-4"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-lrg font-bold px-4 rounded py-2 mr-4"
           onClick={handleAddPoint}
         >
           +
@@ -184,7 +185,7 @@ function App() {
 
         <button
           type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded py-2 mr-1"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-lrg font-bold px-4 rounded py-2 mr-1"
           onClick={handlePreviousPoint}
         >
           👈
@@ -192,7 +193,7 @@ function App() {
 
         <button
           type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded py-2 mr-4"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-lrg font-bold px-4 rounded py-2 mr-4"
           onClick={handleNextPoint}
         >
           👉
@@ -200,7 +201,7 @@ function App() {
 
         <button
           type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded py-2 mr-1"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-lrg font-bold px-4 rounded py-2 mr-1"
           onClick={handleToggleEditing}
         >
           {isEditing ? "Finish Editing" : "Edit"}
