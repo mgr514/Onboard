@@ -13,6 +13,7 @@ function App() {
   const [pointType, setPointType] = useState();
   const [points, setPoints] = useState([
     {
+      title: formTitle,
       type: "text",
       text: "hello",
       imageUrl: "",
@@ -31,10 +32,12 @@ function App() {
 
   const handleNextPoint = () => {
     setCurrentPoint((prevPoint) => mod(prevPoint + 1, points.length));
+    setFormTitle(points[nextPoint].title);
   };
 
   const handlePreviousPoint = () => {
     setCurrentPoint((prevPoint) => mod(prevPoint - 1, points.length));
+    setFormTitle(points[prev].title);
   };
 
   const handleAddPoint = () => {
@@ -45,6 +48,7 @@ function App() {
     setPoints(newPoints);
     setCurrentPoint(newPoints.length - 1);
     setIsEditing(true);
+    setFormTitle("");
   };
 
   const handleToggleEditing = () => {
