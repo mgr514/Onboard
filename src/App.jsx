@@ -211,7 +211,7 @@ function App() {
 
         <button
           type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white text-lrg font-bold px-4 rounded py-2 mr-4"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-lrg font-bold px-4 rounded py-2 mr-1"
           onClick={handleNextPoint}
         >
           👉
@@ -223,6 +223,13 @@ function App() {
           onClick={handleToggleEditing}
         >
           {isEditing ? "Finish Editing" : "Edit"}
+        </button>
+
+        <button
+          type="button"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-lrg font-bold px-4 rounded py-2 ml-4"
+        >
+          🗑
         </button>
       </form>
     </>
