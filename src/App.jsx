@@ -135,6 +135,15 @@ function App() {
                         setPoints(newPoints);
                       }}
                     />
+                    <div>
+                      {points[currentPoint].text}
+                      <img
+                        width="480"
+                        height="360"
+                        src={points[currentPoint].imageUrl}
+                        alt="Education Point Image"
+                      />
+                    </div>
 
                     <input
                       type="text"
@@ -169,7 +178,15 @@ function App() {
                     }}
                   />
                 ) : (
-                  <div>{points[currentPoint].text}</div>
+                  <div>
+                    {points[currentPoint].text}
+                    <video width="480" height="360" controls>
+                      <source
+                        src={points[currentPoint].videoUrl}
+                        type="video/mp4"
+                      />
+                    </video>
+                  </div>
                 )}
               </>
             )}
