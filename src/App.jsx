@@ -72,7 +72,7 @@ function App() {
           <label htmlFor={`item`} className="mr-2">
             Add Education Point:
           </label>
-          <select
+          {/* <select
             className="py-1 border border-gray-300 border-solid mr-2"
             id="pointSelect"
             value={currentPoint}
@@ -84,7 +84,7 @@ function App() {
                 {point.imageUrl}
               </option>
             ))}
-          </select>
+          </select> */}
 
           <select
             id="educationPoint"
@@ -135,15 +135,6 @@ function App() {
                         setPoints(newPoints);
                       }}
                     />
-                    <div>
-                      {points[currentPoint].text}
-                      <img
-                        width="480"
-                        height="360"
-                        src={points[currentPoint].imageUrl}
-                        alt="Education Point Image"
-                      />
-                    </div>
 
                     <input
                       type="text"
@@ -158,7 +149,17 @@ function App() {
                     />
                   </>
                 ) : (
-                  <div>{points[currentPoint].text}</div>
+                  <>
+                    <div>{points[currentPoint].text}</div>
+                    {points[currentPoint].imageUrl && (
+                      <img
+                        src={points[currentPoint].imageUrl}
+                        alt="Education Point Image"
+                        width="480"
+                        height="360"
+                      />
+                    )}
+                  </>
                 )}
               </>
             )}
