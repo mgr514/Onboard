@@ -7,7 +7,9 @@ function mod(n, m) {
 
 function App() {
   // ============================ CONST =======================================
-  const [formTitle, setFormTitle] = useState(localStorage.getItem("formTitle"));
+  const [formTitle, setFormTitle] = useState(
+    localStorage.getItem("formTitle") || ""
+  );
   const [pointType, setPointType] = useState();
   const [points, setPoints] = useState([
     {
@@ -19,7 +21,6 @@ function App() {
   ]);
   const [currentPoint, setCurrentPoint] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
-
   //========================== FUNCTIONS =============================================
 
   const handleFormTitleChange = (e) => {
@@ -35,7 +36,6 @@ function App() {
   const handlePreviousPoint = () => {
     setCurrentPoint((prevPoint) => mod(prevPoint - 1, points.length));
   };
-  console.log(currentPoint);
 
   const handleAddPoint = () => {
     const newPoints = [
@@ -49,6 +49,12 @@ function App() {
 
   const handleToggleEditing = () => {
     setIsEditing((editing) => !editing);
+  };
+
+  const handleDelete = () => {
+    setPoints((currentPoints) => {
+      return currentPoints.filter((_, index) => index !== currentPoint);
+    });
   };
   //============================= BUILD FORM =====================================
   return (
@@ -228,6 +234,7 @@ function App() {
         <button
           type="button"
           className="bg-blue-500 hover:bg-blue-700 text-white text-lrg font-bold px-4 rounded py-2 ml-4"
+          onClick={handleDelete}
         >
           🗑
         </button>
