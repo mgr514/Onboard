@@ -6,23 +6,14 @@ function mod(n, m) {
 }
 
 function App() {
-  // ============================ CONST =======================================
   const [formTitle, setFormTitle] = useState(
     localStorage.getItem("formTitle") || ""
   );
   const [pointType, setPointType] = useState();
-  const [points, setPoints] = useState([
-    {
-      title: formTitle,
-      type: "text",
-      text: "hello",
-      imageUrl: "",
-      videoUrl: "",
-    },
-  ]);
+  const [points, setPoints] = useState([]);
+
   const [currentPoint, setCurrentPoint] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
-  //========================== FUNCTIONS =============================================
 
   const handleFormTitleChange = (e) => {
     const newTitle = e.target.value;
@@ -31,20 +22,20 @@ function App() {
   };
 
   const handleNextPoint = () => {
-    setCurrentPoint((prevPoint) => mod(prevPoint + 1, points.length));
-    setFormTitle(points[nextPoint].title);
+    if (points.length > 1) {
+      setCurrentPoint((prevPoint) => mod(prevPoint + 1, points.length));
+    }
   };
 
   const handlePreviousPoint = () => {
-    setCurrentPoint((prevPoint) => mod(prevPoint - 1, points.length));
-    setFormTitle(points[prev].title);
+    if (points.length > 1) {
+      setCurrentPoint((prevPoint) => mod(prevPoint - 1, points.length));
+    }
   };
 
   const handleAddPoint = () => {
-    const newPoints = [
-      ...points,
-      { type: pointType, imageUrl: "", videoUrl: "" },
-    ];
+    const newPoint = { type: pointType, text: "", imageUrl: "", videoUrl: "" };
+    const newPoints = [...points, newPoint];
     setPoints(newPoints);
     setCurrentPoint(newPoints.length - 1);
     setIsEditing(true);
@@ -57,16 +48,29 @@ function App() {
 
   const handleDelete = () => {
     setPoints((currentPoints) => {
-      return currentPoints.filter((_, index) => index !== currentPoint);
+      const newPoints = currentPoints.filter(
+        (_, index) => index !== currentPoint
+      );
+
+      if (newPoints.length === 0) {
+        setCurrentPoint(0);
+        return newPoints;
+      } else {
+        const newCurrentPoint =
+          (currentPoint === 0 ? 0 : currentPoint - 1) % newPoints.length;
+        setCurrentPoint(newCurrentPoint);
+
+        return newPoints;
+      }
     });
   };
-  //============================= BUILD FORM =====================================
+
   return (
     <>
       <form className="new-item mx-auto max-w-sm">
         <h1>Patient Education</h1>
 
-        <div className="{`form-row py-2">
+        <div className="form-row py-2">
           <label htmlFor="formTitle"></label>
           <input
             type="text"
@@ -79,22 +83,9 @@ function App() {
         </div>
 
         <div className="form-row py-2">
-          <label htmlFor={`item`} className="mr-2">
+          <label htmlFor="item" className="mr-2">
             Add Education Point:
           </label>
-          {/* <select
-            className="py-1 border border-gray-300 border-solid mr-2"
-            id="pointSelect"
-            value={currentPoint}
-            onChange={(e) => setCurrentPoint(e.target.value)}
-          >
-            {points.map((point, index) => (
-              <option key={index} value={index}>
-                {point.text}
-                {point.imageUrl}
-              </option>
-            ))}
-          </select> */}
 
           <select
             id="educationPoint"
@@ -108,7 +99,7 @@ function App() {
           </select>
         </div>
 
-        {currentPoint !== null && (
+        {currentPoint !== null && points[currentPoint] && (
           <div className="form-row py-4 border border-gray-300 rounded mb-4">
             {points[currentPoint].type === "text" && (
               <>
@@ -167,6 +158,8 @@ function App() {
                         alt="Education Point Image"
                         width="480"
                         height="360"
+                        max-height="250"
+                        margin-inline="auto"
                       />
                     )}
                   </>
