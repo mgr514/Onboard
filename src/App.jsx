@@ -6,6 +6,71 @@ function mod(n, m) {
   return ((n % m) + m) % m;
 }
 
+function TextPoint({ point, isEditing, onChange }) {
+  return isEditing ? (
+    <input
+      type="text"
+      placeholder="Enter text"
+      value={point.text}
+      onChange={onChange}
+    />
+  ) : (
+    <div>{point.text}</div>
+  );
+}
+
+function ImagePoint({ point, isEditing, onChange }) {
+  return (
+    <>
+      {isEditing ? (
+        <>
+          <input
+            type="text"
+            placeholder="Enter image URL"
+            value={point.imageUrl}
+            onChange={(e) => onChange(e, "imageUrl")}
+          />
+          <input
+            type="text"
+            placeholder="Enter text"
+            value={point.text}
+            onChange={(e) => onChange(e, "text")}
+          />
+        </>
+      ) : (
+        <>
+          <div>{point.text}</div>
+          {point.imageUrl && (
+            <img
+              src={point.imageUrl}
+              alt="Education Point Image"
+              style={{ maxWidth: "480px", maxHeight: "250px" }}
+            />
+          )}
+        </>
+      )}
+    </>
+  );
+}
+
+function VideoPoint({ point, isEditing, onChange }) {
+  return isEditing ? (
+    <input
+      type="text"
+      placeholder="Enter video URL"
+      value={point.videoUrl}
+      onChange={(e) => onChange(e, "videoUrl")}
+    />
+  ) : (
+    <>
+      <div>{point.text}</div>
+      <video controls>
+        <source src={point.videoUrl} type="video/mp4" />
+      </video>
+    </>
+  );
+}
+
 function App() {
   const [formTitle, setFormTitle] = useState(
     localStorage.getItem("formTitle") || ""
@@ -104,100 +169,45 @@ function App() {
           {currentPoint !== null && points[currentPoint] && (
             <div className="form-row py-4 border border-gray-300 rounded mb-4">
               {points[currentPoint].type === "text" && (
-                <>
-                  {isEditing ? (
-                    <input
-                      className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
-                      type="text"
-                      placeholder="Enter text"
-                      value={points[currentPoint].text}
-                      onChange={(e) => {
-                        const newPoints = [...points];
-                        newPoints[currentPoint].text = e.target.value;
-                        setPoints(newPoints);
-                      }}
-                    />
-                  ) : (
-                    <div>{points[currentPoint].text}</div>
-                  )}
-                </>
+                <TextPoint
+                  point={points[currentPoint]}
+                  isEditing={isEditing}
+                  onChange={(newValue, point, key) => {
+                    const newPoints = [...points];
+                    newPoints[currentPoint].text = e.target.value;
+                    setPoints(newPoints);
+                  }}
+                />
               )}
 
               {points[currentPoint].type === "text_and_image" && (
-                <>
-                  {isEditing ? (
-                    <>
-                      <input
-                        type="text"
-                        className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
-                        placeholder="Enter image URL"
-                        value={points[currentPoint].imageUrl}
-                        onChange={(e) => {
-                          const newPoints = [...points];
-                          newPoints[currentPoint].imageUrl = e.target.value;
-                          setPoints(newPoints);
-                        }}
-                      />
-
-                      <input
-                        type="text"
-                        className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
-                        placeholder="Enter text"
-                        value={points[currentPoint].text}
-                        onChange={(e) => {
-                          const newPoints = [...points];
-                          newPoints[currentPoint].text = e.target.value;
-                          setPoints(newPoints);
-                        }}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <div>{points[currentPoint].text}</div>
-                      {points[currentPoint].imageUrl && (
-                        <img
-                          src={points[currentPoint].imageUrl}
-                          alt="Education Point Image"
-                          width="480"
-                          height="360"
-                          max-height="250"
-                          margin-inline="auto"
-                        />
-                      )}
-                    </>
-                  )}
-                </>
+                <ImagePoint
+                  point={points[currentPoint]}
+                  isEditing={isEditing}
+                  onChange={(newValue, point, key) => {
+                    const newPoints = [...points];
+                    newPoints[currentPoint].imageUrl = e.target.value;
+                    setPoints(newPoints);
+                  }}
+                />
               )}
 
               {points[currentPoint].type === "video" && (
-                <>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500 mb-2"
-                      placeholder="Enter video URL"
-                      value={points[currentPoint]?.videoUrl || ""}
-                      onChange={(e) => {
-                        const newPoints = [...points];
-                        newPoints[currentPoint].videoUrl = e.target.value;
-                        setPoints(newPoints);
-                      }}
-                    />
-                  ) : (
-                    <div>
-                      {points[currentPoint].text}
-                      <video width="480" height="360" controls>
-                        <source
-                          src={points[currentPoint].videoUrl}
-                          type="video/mp4"
-                        />
-                      </video>
-                    </div>
-                  )}
-                </>
+                <VideoPoint
+                  point={points[currentPoint]}
+                  isEditing={isEditing}
+                  onChange={(newValue, point, key) => {
+                    const newPoints = [...points];
+                    newPoints[currentPoint].videoUrl = e.target.value;
+                    setPoints(newPoints);
+                  }}
+                />
               )}
             </div>
           )}
+
+          {/* <div className="form-row py-4 border border-gray-300 rounded mb-4"> */}
+
           <button
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white text-lrg font-bold px-4 rounded py-2 mr-1"
@@ -244,3 +254,122 @@ function App() {
 }
 
 export default App;
+
+{
+  /* // <> */
+}
+{
+  /* //   {isEditing ? ( */
+}
+{
+  /* //     <input */
+}
+{
+  /* //       className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
+                //       type="text"
+                //       placeholder="Enter text"
+                //       value={points[currentPoint].text}
+                //       onChange={(e) => { */
+}
+{
+  /* //         const newPoints = [...points];
+                //         newPoints[currentPoint].text = e.target.value;
+                //         setPoints(newPoints);
+                //       }}
+                //     />
+                //   ) : (
+                //     <div>{points[currentPoint].text}</div>
+                //   )}
+                // </> */
+}
+
+{
+  /* //   <>
+              //     {isEditing ? ( */
+}
+//       <>
+{
+  /* //         <input */
+}
+{
+  /* //           type="text"
+              //           className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
+              //           placeholder="Enter image URL"
+              //           value={points[currentPoint].imageUrl}
+              //           onChange={(e) => { */
+}
+{
+  /* //           
+              //           }}
+              //         />
+
+              //         <input */
+}
+{
+  /* //           type="text"
+              //           className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
+              //           placeholder="Enter text"
+              //           value={points[currentPoint].text}
+              //           onChange={(e) => { */
+}
+{
+  /* //             const newPoints = [...points];
+              //             newPoints[currentPoint].text = e.target.value;
+              //             setPoints(newPoints);
+              //           }}
+              //         />
+              //       </>
+              //     ) : (
+              //       <>
+              //         <div>{points[currentPoint].text}</div>
+              //         {points[currentPoint].imageUrl && ( */
+}
+{
+  /* //           <img */
+}
+{
+  /* //             src={points[currentPoint].imageUrl}
+              //             alt="Education Point Image"
+              //             width="480"
+              //             height="360"
+              //             max-height="250"
+              //             margin-inline="auto"
+              //           />
+              //         )}
+              //       </>
+              //     )}
+              //   </>
+
+              //       <>
+          //         {isEditing ? ( */
+}
+{
+  /* //           <input */
+}
+{
+  /* //             type="text"
+          //             className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500 mb-2"
+          //             placeholder="Enter video URL"
+          //             value={points[currentPoint]?.videoUrl || ""}
+          //             onChange={(e) => { */
+}
+{
+  //             }}
+  //           />
+  //         ) : (
+  //           <div>
+  //             {points[currentPoint].text}
+  //             <video width="480" height="360" controls>
+  //               <source */
+}
+{
+  /* //                 src={points[currentPoint].videoUrl}
+          //                 type="video/mp4"
+          //               />
+          //             </video>
+          //           </div>
+          //         )}
+          //       </>
+          //     )}
+          //   </div> */
+}
