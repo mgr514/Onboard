@@ -1,29 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-import { BrowserRouter } from "react-router-dom";
+import { RouterProvider, createHashRouter } from "react-router-dom";
 
-//import Root, { rootLoader } from "./routes/root";
-//import Team, { teamLoader } from "./routes/team";
+import Page2 from "./routes/Page2";
 
-// const router = createHashRouter([
-//   {
-//     path: "/",
-//     element: <Root />,
-//     loader: rootLoader,
-//     children: [
-//       {
-//         path: "team",
-//         element: <Team />,
-//         loader: teamLoader,
-//       },
-//     ],
-//   },
-// ]);
+const router = createHashRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/home",
+    element: <Page2 />,
+  }
+]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-  //<RouterProvider router={router} />
+  <RouterProvider router={router} />
 );
