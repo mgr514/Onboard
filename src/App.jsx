@@ -3,8 +3,10 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useState } from "react";
 
 //ISSUES
-//1. if you add textbox first it is not editable field
-//2. can only enter one letter at a time
+//1. can only enter one letter at a time
+//2. what is going on with the hash router?
+//3. since hash router issue unable to confirm youtube video function
+
 function mod(n, m) {
   return ((n % m) + m) % m;
 }
@@ -81,7 +83,7 @@ function extractYouTubeVideoID(url) {
   return match ? match[1] : null;
 }
 
-const videoURL = "https://www.youtube.com/watch?v=pMEp4oQIgj8";
+const videoURL = "";
 const videoID = extractYouTubeVideoID(videoURL);
 console.log(videoID);
 
