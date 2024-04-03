@@ -3,17 +3,17 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 
-import Page2 from "./routes/Page2";
+import home from "./routes/Home";
 
 const router = createHashRouter([
   {
-    path: "/",
+    path: "/app",
     element: <App />,
   },
   {
     path: "/home",
-    element: <Page2 />,
-  }
+    element: <Home />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
