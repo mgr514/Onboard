@@ -2,8 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { RouterProvider, createHashRouter } from "react-router-dom";
-
-import home from "./routes/Home";
+import Home from "./routes/Home";
 
 const router = createHashRouter([
   {
