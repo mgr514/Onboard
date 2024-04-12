@@ -1,16 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+import App from "./routes/Booklet.jsx";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 import Home from "./routes/Home";
 
 const router = createHashRouter([
   {
-    path: "/app",
-    element: <App />,
+    path: "/Booklet",
+    element: <Booklet />,
   },
   {
-    path: "/home",
+    path: "/",
     element: <Home />,
   },
 ]);
