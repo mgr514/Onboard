@@ -2,10 +2,6 @@ import "./style.css";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useState } from "react";
 
-//ISSUES
-
-//3. since hash router issue unable to confirm youtube video function
-
 function mod(n, m) {
   return ((n % m) + m) % m;
 }
@@ -76,9 +72,16 @@ function VideoPoint({ point, isEditing, onChange }) {
 }
 
 function Point({ points, currentPoint, setPoints, isEditing }) {
-  if (currentPoint < 0 || currentPoint >= points.length);
+  if (currentPoint < 0 || currentPoint >= points.length) {
+    return <div>Invalid point index</div>;
+  }
 
   const point = points[currentPoint];
+
+  if (!point || typeof point.type !== "string") {
+    console.error("Invalid or undefined point type");
+    return <div>Click add to create new point</div>;
+  }
 
   const onChange = (e, key) => {
     const updatedPoints = [...points];
@@ -113,9 +116,9 @@ function Point({ points, currentPoint, setPoints, isEditing }) {
           onChange={(e) => onChange(e, "videoUrl")}
         />
       );
-
     default:
-      throw new Error(`Unrecognized Type: ${currentPoint.type}`);
+      console.error(`Unrecognized Point Type: ${point.type}`);
+      return <div>Unsupported point type</div>;
   }
 }
 
@@ -130,7 +133,7 @@ const videoURL = "";
 const videoID = extractYouTubeVideoID(videoURL);
 console.log(videoID);
 
-function App() {
+function Booklet() {
   const [formTitle, setFormTitle] = useState(
     localStorage.getItem("formTitle") || ""
   );
@@ -159,7 +162,7 @@ function App() {
   };
 
   const handleAddPoint = () => {
-    const newPoint = { type: pointType, text: "", imageUrl: "", videoUrl: "" };
+    const newPoint = { type: PointType, text: "", imageUrl: "", videoUrl: "" };
     const newPoints = [...points, newPoint];
     setPoints(newPoints);
     setCurrentPoint(newPoints.length - 1);
@@ -281,151 +284,4 @@ function App() {
   );
 }
 
-export default App;
-
-{
-  /* <div className="form-row py-4 border border-gray-300 rounded mb-4"> */
-}
-
-{
-  /* //       className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
-                //       type="text"
-                //       placeholder="Enter text"
-                //       value={points[currentPoint].text}
-                //       onChange={(e) => { */
-}
-{
-  /* //         const newPoints = [...points];
-                //         newPoints[currentPoint].text = e.target.value;
-                //         setPoints(newPoints);
-                //       }}
-                //     />
-                //   ) : (
-                //     <div>{points[currentPoint].text}</div>
-                //   )}
-                // </> */
-}
-
-{
-  /* //           type="text"
-              //           className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
-              //           placeholder="Enter image URL"
-              //           value={points[currentPoint].imageUrl}
-              //           onChange={(e) => { */
-}
-{
-  /* //           
-              //           }}
-              //         />
-
-}
-{
-  /* //           type="text"
-              //           className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none"
-              //           placeholder="Enter text"
-              //           value={points[currentPoint].text}
-              //           onChange={(e) => { */
-}
-{
-  /* //             const newPoints = [...points];
-              //             newPoints[currentPoint].text = e.target.value;
-              //             setPoints(newPoints);
-              //           }}
-              //         />
-              //       </>
-              //     ) : (
-              //       <>
-              //         <div>{points[currentPoint].text}</div>
-              //         {points[currentPoint].imageUrl && ( */
-}
-{
-  /* //           <img */
-}
-{
-  /* //             src={points[currentPoint].imageUrl}
-              //             alt="Education Point Image"
-              //             width="480"
-              //             height="360"
-              //             max-height="250"
-              //             margin-inline="auto"
-              //           />
-              //         )}
-              //       </>
-              //     )}
-              //   </>
-
-              //       <>
-          //         {isEditing ? ( */
-}
-{
-  /* //           <input */
-}
-{
-  /* //             type="text"
-          //             className="bg-white text-gray-700 py-2 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500 mb-2"
-          //             placeholder="Enter video URL"
-          //             value={points[currentPoint]?.videoUrl || ""}
-          //             onChange={(e) => { */
-}
-{
-  //             }}
-  //           />
-  //         ) : (
-  //           <div>
-  //             {points[currentPoint].text}
-  //             <video width="480" height="360" controls>
-  //               <source */
-}
-{
-  /* //                 src={points[currentPoint].videoUrl}
-          //                 type="video/mp4"
-          //               />
-          //             </video>
-          //           </div>
-          //         )}
-          //       </>
-          //     )}
-          //   </div> */
-
-  {
-    /* {currentPoint !== null && points[currentPoint] && (
-            <div className="form-row py-4 border border-gray-300 rounded mb-4">
-              {points[currentPoint].type === "text" && (
-                <TextPoint
-                  point={points[currentPoint]}
-                  isEditing={isEditing}
-                  onChange={(newValue, point, key) => {
-                    const newPoints = [...points];
-                    newPoints[currentPoint].text = e.target.value;
-                    setPoints(newPoints);
-                  }}
-                />
-              )}
-
-              {points[currentPoint].type === "text_and_image" && (
-                <ImagePoint
-                  point={points[currentPoint]}
-                  isEditing={isEditing}
-                  onChange={(newValue, point, key) => {
-                    const newPoints = [...points];
-                    newPoints[currentPoint].imageUrl = e.target.value;
-                    setPoints(newPoints);
-                  }}
-                />
-              )}
-
-              {points[currentPoint].type === "video" && (
-                <VideoPoint
-                  point={points[currentPoint]}
-                  isEditing={isEditing}
-                  onChange={(newValue, point, key) => {
-                    const newPoints = [...points];
-                    newPoints[currentPoint].videoUrl = e.target.value;
-                    setPoints(newPoints);
-                  }}
-                />
-              )}
-            </div>
-          )} */
-  }
-}
+export default Booklet;
