@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./Booklet.jsx";
+import Booklet from "./Booklet.jsx";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 import Home from "./routes/Home";
 
