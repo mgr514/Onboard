@@ -3,8 +3,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useState } from "react";
 
 //ISSUES
-//1. can only enter one letter at a time
-//2. what is going on with the hash router?
+
 //3. since hash router issue unable to confirm youtube video function
 
 function mod(n, m) {
