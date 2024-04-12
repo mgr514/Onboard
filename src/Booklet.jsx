@@ -54,6 +54,14 @@ function ImagePoint({ point, isEditing, onChange }) {
 }
 
 function VideoPoint({ point, isEditing, onChange }) {
+  function extractYouTubeVideoID(url) {
+    const pattern =
+      /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
+    const match = url.match(pattern);
+    return match ? match[1] : null;
+  }
+  const videoID = extractYouTubeVideoID(point.videoUrl);
+
   return isEditing ? (
     <input
       type="text"
@@ -64,9 +72,19 @@ function VideoPoint({ point, isEditing, onChange }) {
   ) : (
     <>
       <div>{point.text}</div>
-      <video controls>
-        <source src={point.videoUrl} type="video/mp4" />
-      </video>
+      {videoID ? (
+        <iframe
+          width="560"
+          height="315"
+          src={`https://www.youtube.com/embed/${videoID}?si=fwKM_UvdGW7gE4qR`}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        ></iframe>
+      ) : (
+        <p>Invalid YouTube URL.</p>
+      )}
     </>
   );
 }
@@ -122,17 +140,6 @@ function Point({ points, currentPoint, setPoints, isEditing }) {
   }
 }
 
-function extractYouTubeVideoID(url) {
-  const pattern =
-    /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
-  const match = url.match(pattern);
-  return match ? match[1] : null;
-}
-
-const videoURL = "";
-const videoID = extractYouTubeVideoID(videoURL);
-console.log(videoID);
-
 function Booklet() {
   const [formTitle, setFormTitle] = useState(
     localStorage.getItem("formTitle") || ""
@@ -162,7 +169,7 @@ function Booklet() {
   };
 
   const handleAddPoint = () => {
-    const newPoint = { type: PointType, text: "", imageUrl: "", videoUrl: "" };
+    const newPoint = { type: pointType, text: "", imageUrl: "", videoUrl: "" };
     const newPoints = [...points, newPoint];
     setPoints(newPoints);
     setCurrentPoint(newPoints.length - 1);
