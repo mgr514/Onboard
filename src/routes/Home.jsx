@@ -13,15 +13,16 @@ function Home() {
       </p>
       <p className="text-base text-gray-700 mb-4">
         Unfortunately the standardized booklet is not accessible for all
-        patients. Patients have increasing complex needs that a booklet cannot
-        address, as well some patients are illiterate, blind, or non-english
-        speaking.{" "}
+        patients. Patients have increasing complex needs that a standard booklet
+        does not address, as well some patients are illiterate, blind, or
+        non-english speaking.{" "}
       </p>
       <p className="text-base text-gray-700 mb-4">
         This project is a patient education tool to be used when onboarding a
-        patient with their health plan is needed. Editable fields allow the
-        educator to change and update any information for individualized patient
-        education, allowing us to easily address individual and complex needs.
+        patient with an individualized health plan is needed. Editable fields
+        allow the educator to change and update any information for
+        individualized patient education, allowing us to easily address
+        individual and complex needs.
       </p>
     </div>
   );
