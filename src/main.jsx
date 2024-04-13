@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import Booklet from "./Booklet.jsx";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 import Home from "./routes/Home";
+import Page2 from "./routes/Page2";
 
 const router = createHashRouter([
   {
@@ -12,6 +13,10 @@ const router = createHashRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/Page2",
+    element: <Page2 />,
   },
 ]);
 
