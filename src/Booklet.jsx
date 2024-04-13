@@ -65,7 +65,7 @@ function VideoPoint({ point, isEditing, onChange }) {
   return isEditing ? (
     <input
       type="text"
-      placeholder="Enter video URL"
+      placeholder="Enter Youtube URL"
       value={point.videoUrl}
       onChange={(e) => onChange(e, "videoUrl")}
     />
@@ -76,7 +76,7 @@ function VideoPoint({ point, isEditing, onChange }) {
         <iframe
           width="560"
           height="315"
-          src={`https://www.youtube.com/embed/${videoID}?si=fwKM_UvdGW7gE4qR`}
+          src={`https://www.youtube.com/embed/${videoID}`}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
