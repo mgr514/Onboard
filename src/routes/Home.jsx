@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -6,6 +7,14 @@ function Home() {
       <h1 className="text-3xl font-bold text-center text-gray-900 mt-10 mb-5">
         Welcome to the Home Page
       </h1>
+      <div className="flex justify-center mb-8">
+        <Link
+          to="/booklet"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Go to Booklet Page
+        </Link>
+      </div>
       <p className="text-base text-gray-700 mb-4">
         I currently work as a nurse in a hospital. Patients requiring education
         about procedures, surgeries, and/or recovery are provided paper
@@ -23,6 +32,13 @@ function Home() {
         allow the educator to change and update any information for
         individualized patient education, allowing us to easily address
         individual and complex needs.
+      </p>
+      <p className="text-base text-gray-700 mb-4">
+        Using Tailwind and React, I have created an app that allows an educator
+        to create a form title and add education points that will store in local
+        storage. The multimedia options allow an educator to maximize patient
+        education by allowing an educator to address the multiple learning
+        styles and needs of each person.
       </p>
     </div>
   );
