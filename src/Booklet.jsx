@@ -144,8 +144,17 @@ function Booklet() {
   const [formTitle, setFormTitle] = useState(
     localStorage.getItem("formTitle") || ""
   );
+
   const [pointType, setPointType] = useState("text");
   const [points, setPoints] = useLocalStorage("points", []);
+
+  useEffect(() => {
+    const bookletData = {
+      formTitle: formTitle,
+      points: points,
+    };
+    localStorage.setItem("bookletData", JSON.stringify(bookletData));
+  }, [formTitle, points]);
 
   const [currentPoint, setCurrentPoint] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
