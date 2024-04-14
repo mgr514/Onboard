@@ -89,7 +89,7 @@ function VideoPoint({ point, isEditing, onChange }) {
   );
 }
 
-function Point({ points, currentPoint, setPoints, isEditing }) {
+export function Point({ points, currentPoint, setPoints, isEditing }) {
   if (currentPoint < 0 || currentPoint >= points.length) {
     return <div>Invalid point index</div>;
   }

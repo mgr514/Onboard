@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Point from "../Booklet";
 
 function PatientView() {
   const [formTitle, setFormTitle] = useState("");
@@ -9,11 +10,12 @@ function PatientView() {
   const themeClass = darkMode ? "dark" : "light";
 
   useEffect(() => {
-    const storedData = localStorage.getItem("bookletData");
+    const storedData = localStorage.getItem("points");
+    console.log({ storedData });
     if (storedData) {
       const data = JSON.parse(storedData);
-      setFormTitle(data.formTitle);
-      setPoints(data.points || []);
+      //setFormTitle(data.formTitle);
+      setPoints(data || []);
     }
   }, []);
 
@@ -22,14 +24,19 @@ function PatientView() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 dark:">
       <h1 className="text-3xl font-bold text-center text-gray-900 my-5">
         {formTitle}
       </h1>
       <ul className="list-disc space-y-2 p-5">
         {points.map((point, index) => (
           <li key={index} className="text-gray-700 text-base">
-            {points}
+            <Point
+              points={points}
+              currentPoint={0}
+              setPoints={setPoints}
+              isEditing={false}
+            />
           </li>
         ))}
       </ul>
