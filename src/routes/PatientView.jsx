@@ -3,6 +3,10 @@ import React, { useState, useEffect } from "react";
 function PatientView() {
   const [formTitle, setFormTitle] = useState("");
   const [points, setPoints] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
+  const [fontSize, setFontSize] = useState(14);
+
+  const themeClass = darkMode ? "dark" : "light";
 
   useEffect(() => {
     const storedData = localStorage.getItem("bookletData");
