@@ -1,6 +1,6 @@
 import "./style.css";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function mod(n, m) {
   return ((n % m) + m) % m;

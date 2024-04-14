@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Page2() {
+function PatientView() {
   const [formTitle, setFormTitle] = useState("");
   const [points, setPoints] = useState([]);
 
@@ -33,4 +33,4 @@ function Page2() {
   );
 }
 
-export default Page2;
+export default PatientView;
