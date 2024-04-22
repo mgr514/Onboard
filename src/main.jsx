@@ -4,6 +4,8 @@ import Booklet from "./Booklet.jsx";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 import Home from "./routes/Home";
 import PatientView from "./routes/PatientView";
+import Point from "./components/Point";
+import Library from "./routes/Library";
 
 const router = createHashRouter([
   {
@@ -17,6 +19,14 @@ const router = createHashRouter([
   {
     path: "/PatientView",
     element: <PatientView />,
+  },
+  {
+    path: "/Point",
+    element: <Point />,
+  },
+  {
+    path: "/Library",
+    element: <Library />,
   },
 ]);
 
