@@ -6,7 +6,7 @@ function TextPoint({ point, isEditing, onChange }) {
       type="text"
       placeholder="Enter text"
       value={point.text}
-      onChange={onChange}
+      onChange={(e) => onChange(e.target.value, "text")}
     />
   ) : (
     <div>{point.text}</div>
@@ -22,13 +22,13 @@ function ImagePoint({ point, isEditing, onChange }) {
             type="text"
             placeholder="Enter image URL"
             value={point.imageUrl}
-            onChange={(e) => onChange(e, "imageUrl")}
+            onChange={(e) => onChange(e.target.value, "imageUrl")}
           />
           <input
             type="text"
             placeholder="Enter text"
             value={point.text}
-            onChange={(e) => onChange(e, "text")}
+            onChange={(e) => onChange(e.target.value, "text")}
           />
         </>
       ) : (
@@ -61,7 +61,7 @@ function VideoPoint({ point, isEditing, onChange }) {
       type="text"
       placeholder="Enter Youtube URL"
       value={point.videoUrl}
-      onChange={(e) => onChange(e, "videoUrl")}
+      onChange={(e) => onChange(e.target.value, "videoUrl")}
     />
   ) : (
     <>
@@ -83,17 +83,16 @@ function VideoPoint({ point, isEditing, onChange }) {
   );
 }
 
-function Point({ points, currentPoint, setPoints, isEditing }) {
-  if (currentPoint < 0 || currentPoint >= points.length) {
-    return <div>Invalid point index</div>;
-  }
-
-  const point = points[currentPoint];
-
+function Point({ point, isEditing, onChangeProp }) {
+  //   if (currentPoint < 0 || currentPoint >= points.length) {
+  //     return <div>Invalid point index</div>;
+  //   }
   if (!point || typeof point.type !== "string") {
     console.error("Invalid or undefined point type");
     return <div>Click add to create new point</div>;
   }
+
+  //   const point = points[currentPoint];
 
   const onChange = (e, key) => {
     const updatedPoints = [...points];
@@ -105,27 +104,27 @@ function Point({ points, currentPoint, setPoints, isEditing }) {
     case "text":
       return (
         <TextPoint
-          point={points[currentPoint]}
+          point={point}
           isEditing={isEditing}
-          onChange={(e) => onChange(e, "text")}
+          onChange={onChangeProp}
         />
       );
 
     case "text_and_image":
       return (
         <ImagePoint
-          point={points[currentPoint]}
+          point={point}
           isEditing={isEditing}
-          onChange={(e, key) => onChange(e, key)}
+          onChange={onChangeProp}
         />
       );
 
     case "video":
       return (
         <VideoPoint
-          point={points[currentPoint]}
+          point={point}
           isEditing={isEditing}
-          onChange={(e) => onChange(e, "videoUrl")}
+          onChange={onChangeProp}
         />
       );
     default:
