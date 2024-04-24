@@ -15,6 +15,8 @@ function Booklet() {
   const [pointType, setPointType] = useState("text");
   const [points, setPoints] = useLocalStorage("points", []);
   const booklets = useLocalStorage("booklets", []);
+  const [currentPoint, setCurrentPoint] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const bookletData = {
@@ -23,9 +25,6 @@ function Booklet() {
     };
     localStorage.setItem("bookletData", JSON.stringify(bookletData));
   }, [formTitle, points]);
-
-  const [currentPoint, setCurrentPoint] = useState(0);
-  const [isEditing, setIsEditing] = useState(false);
 
   const handleFormTitleChange = (e) => {
     const newTitle = e.target.value;
@@ -115,10 +114,12 @@ function Booklet() {
           {currentPoint !== null && points[currentPoint] && (
             <div className="form-row py-4 border border-gray-300 rounded mb-4">
               <Point
-                points={points}
+                point={points[currentPoint]}
                 currentPoint={currentPoint}
+                points={points}
                 setPoints={setPoints}
                 isEditing={isEditing}
+                onChangeProp={handleAddPoint}
               />
             </div>
           )}

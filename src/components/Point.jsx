@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 function TextPoint({ point, isEditing, onChange }) {
   return isEditing ? (
     <input
       type="text"
       placeholder="Enter text"
-      value={point.text}
+      value={point.text || ""}
       onChange={(e) => onChange(e.target.value, "text")}
     />
   ) : (
@@ -21,13 +21,13 @@ function ImagePoint({ point, isEditing, onChange }) {
           <input
             type="text"
             placeholder="Enter image URL"
-            value={point.imageUrl}
+            value={point.imageUrl || ""}
             onChange={(e) => onChange(e.target.value, "imageUrl")}
           />
           <input
             type="text"
             placeholder="Enter text"
-            value={point.text}
+            value={point.text || ""}
             onChange={(e) => onChange(e.target.value, "text")}
           />
         </>
@@ -48,19 +48,20 @@ function ImagePoint({ point, isEditing, onChange }) {
 }
 
 function VideoPoint({ point, isEditing, onChange }) {
+  const videoID = extractYouTubeVideoID(point.videoUrl);
+
   function extractYouTubeVideoID(url) {
     const pattern =
       /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
     const match = url.match(pattern);
     return match ? match[1] : null;
   }
-  const videoID = extractYouTubeVideoID(point.videoUrl);
 
   return isEditing ? (
     <input
       type="text"
       placeholder="Enter Youtube URL"
-      value={point.videoUrl}
+      value={point.videoUrl || ""}
       onChange={(e) => onChange(e.target.value, "videoUrl")}
     />
   ) : (
@@ -84,48 +85,29 @@ function VideoPoint({ point, isEditing, onChange }) {
 }
 
 function Point({ point, isEditing, onChangeProp }) {
-  //   if (currentPoint < 0 || currentPoint >= points.length) {
-  //     return <div>Invalid point index</div>;
-  //   }
   if (!point || typeof point.type !== "string") {
     console.error("Invalid or undefined point type");
     return <div>Click add to create new point</div>;
   }
 
-  //   const point = points[currentPoint];
-
-  const onChange = (e, key) => {
-    const updatedPoints = [...points];
-    updatedPoints[currentPoint][key] = e.target.value;
-    setPoints(updatedPoints);
+  const onChange = (value, key) => {
+    onChangeProp(value, key);
   };
 
   switch (point.type) {
     case "text":
       return (
-        <TextPoint
-          point={point}
-          isEditing={isEditing}
-          onChange={onChangeProp}
-        />
+        <TextPoint point={point} isEditing={isEditing} onChange={onChange} />
       );
 
     case "text_and_image":
       return (
-        <ImagePoint
-          point={point}
-          isEditing={isEditing}
-          onChange={onChangeProp}
-        />
+        <ImagePoint point={point} isEditing={isEditing} onChange={onChange} />
       );
 
     case "video":
       return (
-        <VideoPoint
-          point={point}
-          isEditing={isEditing}
-          onChange={onChangeProp}
-        />
+        <VideoPoint point={point} isEditing={isEditing} onChange={onChange} />
       );
     default:
       console.error(`Unrecognized Point Type: ${point.type}`);
