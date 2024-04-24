@@ -9,7 +9,7 @@ function Library() {
   }, []);
 
   return (
-    <div className="library">
+    <div className="library flex justify-center items-center min-h-screen bg-gray-100 dark:bg-black dark: text-white">
       {booklets.map((booklet, index) => (
         <div key={index} className="booklet">
           <div>{booklet.formTitle}</div>

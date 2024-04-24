@@ -32,6 +32,13 @@ function Booklet() {
     localStorage.setItem("formTitle", newTitle);
   };
 
+  const handlePointUpdate = (newValue, key) => {
+    const updatedPoints = points.map((p, idx) =>
+      idx === currentPoint ? { ...p, [key]: newValue } : p
+    );
+    setPoints(updatedPoints);
+  };
+
   const handleNextPoint = () => {
     if (points.length > 1) {
       setCurrentPoint((prevPoint) => mod(prevPoint + 1, points.length));
@@ -78,15 +85,15 @@ function Booklet() {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
-        <form className="new-item mx-auto max-w-2xl bg-white shadow-lg rounded-lg p-6">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-black dark: text-white">
+        <form className="new-item mx-auto max-w-2xl bg-white shadow-lg rounded-lg p-6 dark:bg-gray-800 dark:text-white dark:shadow-2xl">
           <h1>Patient Education</h1>
 
           <div className="form-row py-2">
             <label htmlFor="formTitle"></label>
             <input
               type="text"
-              className="text-lg font-bold border border-gray-900 border-solid focus:outline-none rounded p-1"
+              className="text-lg font-bold border border-gray-900 border-solid focus:outline-none rounded p-1 dark:border-gray-500"
               id="formTitle"
               placeholder="Enter Education Title"
               value={formTitle}
@@ -101,7 +108,7 @@ function Booklet() {
 
             <select
               id="educationPoint"
-              className="py-1 border border-gray-300 border-solid"
+              className="py-1 border border-gray-300 border-solid dark:border-gray-600"
               value={pointType}
               onChange={(e) => setPointType(e.target.value)}
             >
@@ -112,14 +119,14 @@ function Booklet() {
           </div>
 
           {currentPoint !== null && points[currentPoint] && (
-            <div className="form-row py-4 border border-gray-300 rounded mb-4">
+            <div className="form-row py-4 border border-gray-300 rounded mb-4 dark:bg-black dark: text-white">
               <Point
                 point={points[currentPoint]}
                 currentPoint={currentPoint}
                 points={points}
                 setPoints={setPoints}
                 isEditing={isEditing}
-                onChangeProp={handleAddPoint}
+                onChangeProp={handlePointUpdate}
               />
             </div>
           )}

@@ -24,7 +24,7 @@ function PatientView() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 dark:">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 dark:text-white">
       <h1 className="text-3xl font-bold text-center text-gray-900 my-5">
         {formTitle}
       </h1>

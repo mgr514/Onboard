@@ -6,6 +6,7 @@ import Home from "./routes/Home";
 import PatientView from "./routes/PatientView";
 import Point from "./components/Point";
 import Library from "./routes/Library";
+import Fontaccess from "./components/Fontaccess";
 
 const router = createHashRouter([
   {
@@ -27,6 +28,10 @@ const router = createHashRouter([
   {
     path: "/Library",
     element: <Library />,
+  },
+  {
+    path: "/Fontaccess",
+    element: <Fontaccess />,
   },
 ]);
 
