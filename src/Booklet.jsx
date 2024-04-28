@@ -2,6 +2,7 @@ import "./style.css";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useState, useEffect } from "react";
 import Point from "./components/Point";
+import { Link } from "react-router-dom";
 
 function mod(n, m) {
   return ((n % m) + m) % m;
@@ -14,7 +15,7 @@ function Booklet() {
 
   const [pointType, setPointType] = useState("text");
   const [points, setPoints] = useLocalStorage("points", []);
-  const booklets = useLocalStorage("booklets", []);
+  const [booklets, setBooklets] = useLocalStorage("booklets", []);
   const [currentPoint, setCurrentPoint] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -23,7 +24,6 @@ function Booklet() {
       formTitle: formTitle,
       points: points,
     };
-    localStorage.setItem("bookletData", JSON.stringify(bookletData));
   }, [formTitle, points]);
 
   const handleFormTitleChange = (e) => {
@@ -85,11 +85,19 @@ function Booklet() {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-black dark: text-white">
-        <form className="new-item mx-auto max-w-2xl bg-white shadow-lg rounded-lg p-6 dark:bg-gray-800 dark:text-white dark:shadow-2xl">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-black">
+        <div className="">
+          <Link
+            to="/library"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Booklet Library
+          </Link>
+        </div>
+        <form className="new-item mx-auto max-w-2xl bg-white shadow-lg rounded-lg p-6 dark:bg-gray-800 dark:shadow-2xl dark: text-white">
           <h1>Patient Education</h1>
 
-          <div className="form-row py-2">
+          <div className="form-row py-2 dark: text-black">
             <label htmlFor="formTitle"></label>
             <input
               type="text"
@@ -108,7 +116,7 @@ function Booklet() {
 
             <select
               id="educationPoint"
-              className="py-1 border border-gray-300 border-solid dark:border-gray-600"
+              className="py-1 border border-gray-300 border-solid dark:border-gray-600 dark: text-black"
               value={pointType}
               onChange={(e) => setPointType(e.target.value)}
             >
@@ -119,7 +127,7 @@ function Booklet() {
           </div>
 
           {currentPoint !== null && points[currentPoint] && (
-            <div className="form-row py-4 border border-gray-300 rounded mb-4 dark:bg-black dark: text-white">
+            <div className="form-row py-4 border border-gray-300 rounded mb-4 dark: bg-white">
               <Point
                 point={points[currentPoint]}
                 currentPoint={currentPoint}
