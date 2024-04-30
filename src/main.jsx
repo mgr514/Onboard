@@ -10,27 +10,33 @@ import Fontaccess from "./components/Fontaccess";
 
 const router = createHashRouter([
   {
-    path: "/Booklet",
+    path: "/booklet",
     element: <Booklet />,
+    children: [
+      {
+        path: ":id",
+        element: <Booklet />,
+      },
+    ],
   },
   {
     path: "/",
     element: <Home />,
   },
   {
-    path: "/PatientView",
+    path: "/patientview", // Lowercased the path
     element: <PatientView />,
   },
   {
-    path: "/Point",
+    path: "/point", // Lowercased the path
     element: <Point />,
   },
   {
-    path: "/Library",
+    path: "/library", // Lowercased the path
     element: <Library />,
   },
   {
-    path: "/Fontaccess",
+    path: "/fontaccess", // Lowercased the path
     element: <Fontaccess />,
   },
 ]);
