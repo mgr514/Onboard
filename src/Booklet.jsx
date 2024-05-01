@@ -2,8 +2,7 @@ import "./style.css";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useState, useEffect } from "react";
 import Point from "./components/Point";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { Link, useParams, Routes, Route } from "react-router-dom";
 
 function mod(n, m) {
   return ((n % m) + m) % m;
