@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
 
 function Library() {
-  const [booklets, setBooklets] = useState([]);
+  const [booklets, setBooklets] = useLocalStorage("booklets", []);
 
   useLocalStorage(() => {
     const storedBooklets = localStorage.getItem("booklets") || "[]";
@@ -14,7 +14,10 @@ function Library() {
     <div className="library flex justify-center items-center min-h-screen bg-gray-100 dark:bg-black dark: text-white">
       <div className="mb-4">
         <Link
-          to="/booklet"
+          to={{
+            pathname: "/booklet",
+            state: { addBooklet: setBooklets },
+          }}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Create Booklet

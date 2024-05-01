@@ -17,9 +17,7 @@ function Booklet({ match }) {
     formTitle: "",
     points: [],
   });
-  const [formTitle, setFormTitle] = useState(
-    localStorage.getItem("formTitle") || ""
-  );
+  const [formTitle, setFormTitle] = useState(booklets[0]?.title || "");
 
   const [pointType, setPointType] = useState("text");
   const [points, setPoints] = useLocalStorage("points", []);
@@ -33,20 +31,22 @@ function Booklet({ match }) {
       parsedIndex < booklets.length
     ) {
       setCurrentBooklet(booklets[parsedIndex]);
-    } else {
-      setCurrentBooklet({ formTitle: "", points: [] });
+      setFormTitle(booklets[parsedIndex].title);
+    } else if (booklets.length > 0 && parsedIndex === undefined) {
+      setCurrentBooklet(booklets[0]);
+      setFormTitle(booklets[0].title);
     }
   }, [parsedIndex, booklets]);
 
   const handleFormTitleChange = (e) => {
     const newTitle = e.target.value;
+    setFormTitle(newTitle);
     setCurrentBooklet((prevBooklet) => ({
       ...prevBooklet,
-      formTitle: newTitle,
+      title: newTitle,
     }));
 
-    // setFormTitle(newTitle);
-    //localStorage.setItem("formTitle", newTitle);
+    // localStorage.setItem("formTitle", newTitle);
   };
 
   const handlePointUpdate = (newValue, key) => {
@@ -164,7 +164,7 @@ function Booklet({ match }) {
           </div>
 
           {points[currentPointIndex] && (
-            <div className="form-row py-4 border border-gray-300 rounded mb-4 dark: bg-white">
+            <div className="form-row py-4 border border-gray-300 rounded mb-4 dark: bg-white dark: text-black">
               <Point
                 point={currentBooklet.points[currentPointIndex]}
                 //currentPoint={currentPoint}
