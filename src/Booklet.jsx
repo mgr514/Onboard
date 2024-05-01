@@ -3,61 +3,90 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useState, useEffect } from "react";
 import Point from "./components/Point";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function mod(n, m) {
   return ((n % m) + m) % m;
 }
 
-function Booklet() {
+function Booklet({ match }) {
+  const { index } = useParams();
+  const parsedIndex = parseInt(index, 10);
+  const [booklets, setBooklets] = useLocalStorage("booklets", []);
+  const [currentBooklet, setCurrentBooklet] = useState({
+    formTitle: "",
+    points: [],
+  });
   const [formTitle, setFormTitle] = useState(
     localStorage.getItem("formTitle") || ""
   );
 
   const [pointType, setPointType] = useState("text");
   const [points, setPoints] = useLocalStorage("points", []);
-  const [booklets, setBooklets] = useLocalStorage("booklets", []);
-  const [currentPoint, setCurrentPoint] = useState(0);
+  const [currentPointIndex, setCurrentPointIndex] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const bookletData = {
-      formTitle: formTitle,
-      points: points,
-    };
-  }, [formTitle, points]);
+    if (
+      !isNaN(parsedIndex) &&
+      parsedIndex >= 0 &&
+      parsedIndex < booklets.length
+    ) {
+      setCurrentBooklet(booklets[parsedIndex]);
+    } else {
+      setCurrentBooklet({ formTitle: "", points: [] });
+    }
+  }, [parsedIndex, booklets]);
 
   const handleFormTitleChange = (e) => {
     const newTitle = e.target.value;
-    setFormTitle(newTitle);
-    localStorage.setItem("formTitle", newTitle);
+    setCurrentBooklet((prevBooklet) => ({
+      ...prevBooklet,
+      formTitle: newTitle,
+    }));
+
+    // setFormTitle(newTitle);
+    //localStorage.setItem("formTitle", newTitle);
   };
 
   const handlePointUpdate = (newValue, key) => {
-    const updatedPoints = points.map((p, idx) =>
-      idx === currentPoint ? { ...p, [key]: newValue } : p
+    const updatedPoints = points.map((point, idx) =>
+      idx === currentPointIndex ? { ...point, [key]: newValue } : point
     );
+    setCurrentBooklet((prevBooklet) => ({
+      ...prevBooklet,
+      points: updatedPoints,
+    }));
     setPoints(updatedPoints);
   };
 
   const handleNextPoint = () => {
     if (points.length > 1) {
-      setCurrentPoint((prevPoint) => mod(prevPoint + 1, points.length));
+      setCurrentPointIndex((prevPoint) =>
+        mod(currentPointIndex + 1, currentBooklet.points.length)
+      );
     }
   };
 
   const handlePreviousPoint = () => {
     if (points.length > 1) {
-      setCurrentPoint((prevPoint) => mod(prevPoint - 1, points.length));
+      setCurrentPointIndex((prevPoint) =>
+        mod(currentPointIndex - 1, currentBooklet.points.length)
+      );
     }
   };
 
   const handleAddPoint = () => {
     const newPoint = { type: pointType, text: "", imageUrl: "", videoUrl: "" };
-    const newPoints = [...points, newPoint];
+    const newPoints = [...currentBooklet.points, newPoint];
+    setCurrentBooklet((prevBooklet) => ({
+      ...prevBooklet,
+      points: newPoints,
+    }));
+    setCurrentPointIndex(newPoints.length - 1);
     setPoints(newPoints);
-    setCurrentPoint(newPoints.length - 1);
     setIsEditing(true);
-    setFormTitle("");
+    // setFormTitle("");
   };
 
   const handleToggleEditing = () => {
@@ -67,20 +96,28 @@ function Booklet() {
   const handleDelete = () => {
     setPoints((currentPoints) => {
       const newPoints = currentPoints.filter(
-        (_, index) => index !== currentPoint
+        (_, index) => index !== currentPointIndex
       );
 
       if (newPoints.length === 0) {
-        setCurrentPoint(0);
+        setCurrentPointIndex(0);
         return newPoints;
       } else {
         const newCurrentPoint =
           (currentPoint === 0 ? 0 : currentPoint - 1) % newPoints.length;
-        setCurrentPoint(newCurrentPoint);
+        setCurrentPointIndex(newCurrentPoint);
 
         return newPoints;
       }
     });
+  };
+  const saveBooklet = () => {
+    const newBooklets = [...booklets];
+    const newBookletIndex =
+      typeof index !== "undefined" ? parseInt(index, 10) : booklets.length;
+    newBooklets[newBookletIndex] = currentBooklet;
+
+    setBooklets(newBooklets);
   };
 
   return (
@@ -126,11 +163,11 @@ function Booklet() {
             </select>
           </div>
 
-          {currentPoint !== null && points[currentPoint] && (
+          {points[currentPointIndex] && (
             <div className="form-row py-4 border border-gray-300 rounded mb-4 dark: bg-white">
               <Point
-                point={points[currentPoint]}
-                currentPoint={currentPoint}
+                point={currentBooklet.points[currentPointIndex]}
+                //currentPoint={currentPoint}
                 points={points}
                 setPoints={setPoints}
                 isEditing={isEditing}
