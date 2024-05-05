@@ -12,10 +12,10 @@ function Home() {
         </h1>
         <div className="flex justify-center mb-8">
           <Link
-            to="/booklet"
+            to="/library"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            Go to Booklet Page
+            Go to Library
           </Link>
         </div>
         <p className="text-base text-gray-700 mb-4 dark:text-white">

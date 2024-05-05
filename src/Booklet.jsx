@@ -17,9 +17,7 @@ function Booklet({ match }) {
     points: [],
   });
   const [formTitle, setFormTitle] = useState(booklets[0]?.title || "");
-
   const [pointType, setPointType] = useState("text");
-  const [points, setPoints] = useLocalStorage("points", []);
   const [currentPointIndex, setCurrentPointIndex] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -44,35 +42,43 @@ function Booklet({ match }) {
       ...prevBooklet,
       title: newTitle,
     }));
-
-    // localStorage.setItem("formTitle", newTitle);
   };
 
   const handlePointUpdate = (newValue, key) => {
-    const updatedPoints = points.map((point, idx) =>
+    const updatedPoints = currentBooklet.points.map((point, idx) =>
       idx === currentPointIndex ? { ...point, [key]: newValue } : point
     );
     setCurrentBooklet((prevBooklet) => ({
       ...prevBooklet,
       points: updatedPoints,
     }));
-    setPoints(updatedPoints);
+    setBooklets((previousBooklets) =>
+      previousBooklets.map((booklet, idx) =>
+        idx === parsedIndex ? { ...booklet, points: updatedPoints } : booklet
+      )
+    );
   };
 
   const handleNextPoint = () => {
-    if (points.length > 1) {
-      setCurrentPointIndex((prevPoint) =>
-        mod(currentPointIndex + 1, currentBooklet.points.length)
+    if (currentBooklet.points.length > 1) {
+      setCurrentPointIndex(
+        (prevPoint) => (currentPointIndex + 1) % currentBooklet.points.length
       );
     }
   };
 
   const handlePreviousPoint = () => {
-    if (points.length > 1) {
-      setCurrentPointIndex((prevPoint) =>
-        mod(currentPointIndex - 1, currentBooklet.points.length)
+    if (currentBooklet.points.length > 1) {
+      setCurrentPointIndex(
+        (prevPoint) =>
+          (currentPointIndex - 1 + currentBooklet.points.length) %
+          currentBooklet.points.length
       );
     }
+  };
+
+  const handleToggleEditing = () => {
+    setIsEditing((prevIsEditing) => !prevIsEditing);
   };
 
   const handleAddPoint = () => {
@@ -83,39 +89,33 @@ function Booklet({ match }) {
       points: newPoints,
     }));
     setCurrentPointIndex(newPoints.length - 1);
-    setPoints(newPoints);
+    setBooklets((previousBooklets) =>
+      previousBooklets.map((booklet, idx) =>
+        idx === parsedIndex ? { ...booklet, points: newPoints } : booklet
+      )
+    );
     setIsEditing(true);
-    // setFormTitle("");
-  };
-
-  const handleToggleEditing = () => {
-    setIsEditing((editing) => !editing);
   };
 
   const handleDelete = () => {
-    setPoints((currentPoints) => {
-      const newPoints = currentPoints.filter(
-        (_, index) => index !== currentPointIndex
-      );
-
-      if (newPoints.length === 0) {
-        setCurrentPointIndex(0);
-        return newPoints;
-      } else {
-        const newCurrentPoint =
-          (currentPoint === 0 ? 0 : currentPoint - 1) % newPoints.length;
-        setCurrentPointIndex(newCurrentPoint);
-
-        return newPoints;
-      }
-    });
+    const newPoints = currentBooklet.points.filter(
+      (_, index) => index !== currentPointIndex
+    );
+    setCurrentBooklet((prevBooklet) => ({
+      ...prevBooklet,
+      points: newPoints,
+    }));
+    setCurrentPointIndex(0);
+    setBooklets((previousBooklets) =>
+      previousBooklets.map((booklet, idx) =>
+        idx === parsedIndex ? { ...booklet, points: newPoints } : booklet
+      )
+    );
   };
+
   const saveBooklet = () => {
     const newBooklets = [...booklets];
-    const newBookletIndex =
-      typeof index !== "undefined" ? parseInt(index, 10) : booklets.length;
-    newBooklets[newBookletIndex] = currentBooklet;
-
+    newBooklets[parsedIndex] = currentBooklet;
     setBooklets(newBooklets);
   };
 
@@ -130,10 +130,10 @@ function Booklet({ match }) {
             Booklet Library
           </Link>
         </div>
-        <form className="new-item mx-auto max-w-2xl bg-white shadow-lg rounded-lg p-6 dark:bg-gray-800 dark:shadow-2xl dark: text-white">
+        <form className="new-item mx-auto max-w-2xl bg-white shadow-lg rounded-lg p-6 dark:bg-gray-800 dark:shadow-2xl dark:text-white">
           <h1>Patient Education</h1>
 
-          <div className="form-row py-2 dark: text-black">
+          <div className="form-row py-2">
             <label htmlFor="formTitle"></label>
             <input
               type="text"
@@ -152,7 +152,7 @@ function Booklet({ match }) {
 
             <select
               id="educationPoint"
-              className="py-1 border border-gray-300 border-solid dark:border-gray-600 dark: text-black"
+              className="py-1 border border-gray-300 border-solid dark:border-gray-600"
               value={pointType}
               onChange={(e) => setPointType(e.target.value)}
             >
@@ -162,13 +162,10 @@ function Booklet({ match }) {
             </select>
           </div>
 
-          {points[currentPointIndex] && (
-            <div className="form-row py-4 border border-gray-300 rounded mb-4 dark: bg-white dark: text-black">
+          {currentBooklet.points[currentPointIndex] && (
+            <div className="form-row py-4 border border-gray-300 rounded mb-4">
               <Point
                 point={currentBooklet.points[currentPointIndex]}
-                //currentPoint={currentPoint}
-                points={points}
-                setPoints={setPoints}
                 isEditing={isEditing}
                 onChangeProp={handlePointUpdate}
               />
@@ -177,7 +174,7 @@ function Booklet({ match }) {
 
           <button
             type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 mr-1"
+            className="bg-green-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 mr-1"
             onClick={handleAddPoint}
           >
             +
@@ -209,7 +206,7 @@ function Booklet({ match }) {
 
           <button
             type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 ml-4"
+            className="bg-red-500 hover:bg-red-700 text-white text-lg font-bold px-4 rounded py-2 ml-4"
             onClick={handleDelete}
           >
             🗑

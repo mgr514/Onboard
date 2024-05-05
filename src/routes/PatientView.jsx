@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Point from "../Booklet";
+import Point from "../components/Point";
 
 function PatientView() {
   const [formTitle, setFormTitle] = useState("");
