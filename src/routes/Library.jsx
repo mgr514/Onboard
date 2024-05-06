@@ -12,14 +12,15 @@ function Library() {
   }, []);
 
   const handleCreateBooklet = () => {
+    const newId = booklets((id, booklet) => (booklet.id, 0)) + 1;
     const newBooklet = {
       title: "",
       points: [],
-      id: booklets.length,
+      id: newId,
     };
     setBooklets((prevBooklets) => {
       const updatedBooklets = [...prevBooklets, newBooklet];
-      navigate(`/booklet`);
+      navigate(`/booklet/${newId}`);
       return updatedBooklets;
     });
   };
