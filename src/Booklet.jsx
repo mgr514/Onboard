@@ -3,6 +3,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useState, useEffect } from "react";
 import Point from "./components/Point";
 import { Link, useParams, Routes, Route } from "react-router-dom";
+import FontSizeToggle from "./components/Fontaccess";
 
 function mod(n, m) {
   return ((n % m) + m) % m;
@@ -122,14 +123,19 @@ function Booklet({ match }) {
   return (
     <>
       <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-black">
-        <div className="">
-          <Link
-            to="/library"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Booklet Library
-          </Link>
+        {/* Outer container for the top-left items */}
+        <div className="absolute top-0 left-0 p-4">
+          <FontSizeToggle />
+          <div className="mt-4">
+            <Link
+              to="/library"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Booklet Library
+            </Link>
+          </div>
         </div>
+
         <form className="new-item mx-auto max-w-2xl bg-white shadow-lg rounded-lg p-6 dark:bg-gray-800 dark:shadow-2xl dark:text-white">
           <h1>Patient Education</h1>
 
@@ -149,7 +155,6 @@ function Booklet({ match }) {
             <label htmlFor="item" className="mr-2">
               Add Education Point:
             </label>
-
             <select
               id="educationPoint"
               className="py-1 border border-gray-300 border-solid dark:border-gray-600"
@@ -172,45 +177,43 @@ function Booklet({ match }) {
             </div>
           )}
 
-          <button
-            type="button"
-            className="bg-green-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 mr-1"
-            onClick={handleAddPoint}
-          >
-            +
-          </button>
-
-          <button
-            type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 mr-4"
-            onClick={handleToggleEditing}
-          >
-            {isEditing ? "Finish Editing" : "Edit"}
-          </button>
-
-          <button
-            type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 mr-1"
-            onClick={handlePreviousPoint}
-          >
-            👈
-          </button>
-
-          <button
-            type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2"
-            onClick={handleNextPoint}
-          >
-            👉
-          </button>
-
-          <button
-            type="button"
-            className="bg-red-500 hover:bg-red-700 text-white text-lg font-bold px-4 rounded py-2 ml-4"
-            onClick={handleDelete}
-          >
-            🗑
-          </button>
+          <div className="flex items-center justify-center space-x-2">
+            <button
+              type="button"
+              className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 mr-2"
+              onClick={handlePreviousPoint}
+            >
+              👈
+            </button>
+            <button
+              type="button"
+              className="bg-green-500 hover:bg-green-700 text-white text-lg font-bold px-4 rounded py-2"
+              onClick={handleAddPoint}
+            >
+              +
+            </button>
+            <button
+              type="button"
+              className="bg-red-500 hover:bg-red-700 text-white text-lg font-bold px-4 rounded py-2"
+              onClick={handleDelete}
+            >
+              🗑
+            </button>
+            <button
+              type="button"
+              className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 mr-2"
+              onClick={handleToggleEditing}
+            >
+              {isEditing ? "Finish Editing" : "Edit"}
+            </button>
+            <button
+              type="button"
+              className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 ml-2"
+              onClick={handleNextPoint}
+            >
+              👉
+            </button>
+          </div>
         </form>
       </div>
     </>
