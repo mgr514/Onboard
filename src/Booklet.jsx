@@ -1,6 +1,6 @@
 import "./style.css";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Point from "./components/Point";
 import { Link, useParams, Routes, Route } from "react-router-dom";
 import FontSizeToggle from "./components/Fontaccess";
@@ -17,10 +17,45 @@ function Booklet({ match }) {
     formTitle: "",
     points: [],
   });
-  const [formTitle, setFormTitle] = useState(booklets[0]?.title || "");
+  const [formTitle, setFormTitle] = useState("");
+  // const [formTitle, setFormTitle] = useState(booklets[0]?.title || "");
   const [pointType, setPointType] = useState("text");
   const [currentPointIndex, setCurrentPointIndex] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
+
+  const processedBooklets = useMemo(
+    () =>
+      booklets.map((booklet) => ({
+        ...booklet,
+      })),
+    [booklets]
+  );
+
+  // useEffect(() => {
+  //   if (booklets.length > 0) {
+  //     setFormTitle(booklets[0]?.title || "");
+  //   }
+  // }, [booklets]);
+
+  // useEffect(() => {
+  //   if (
+  //     !isNaN(parsedIndex) &&
+  //     parsedIndex >= 0 &&
+  //     parsedIndex < booklets.length &&
+  //     (currentBooklet !== booklets[parsedIndex] ||
+  //       formTitle !== booklets[parsedIndex].title)
+  //   ) {
+  //     setCurrentBooklet(booklets[parsedIndex]);
+  //     setFormTitle(booklets[parsedIndex].title);
+  //   } else if (
+  //     booklets.length > 0 &&
+  //     parsedIndex === undefined &&
+  //     currentBooklet !== booklets[0]
+  //   ) {
+  //     setCurrentBooklet(booklets[0]);
+  //     setFormTitle(booklets[0].title);
+  //   }
+  // }, [parsedIndex, booklets]);
 
   useEffect(() => {
     if (
@@ -28,17 +63,25 @@ function Booklet({ match }) {
       parsedIndex >= 0 &&
       parsedIndex < booklets.length
     ) {
-      setCurrentBooklet(booklets[parsedIndex]);
-      setFormTitle(booklets[parsedIndex].title);
-    } else if (booklets.length > 0 && parsedIndex === undefined) {
+      const targetBooklet = booklets[parsedIndex];
+      if (
+        targetBooklet.title !== currentBooklet.title ||
+        targetBooklet.points.length !== currentBooklet.points.length
+      ) {
+        setCurrentBooklet(targetBooklet);
+      }
+    } else if (
+      booklets.length > 0 &&
+      parsedIndex === undefined &&
+      !isEqual(currentBooklet, booklets[0])
+    ) {
       setCurrentBooklet(booklets[0]);
-      setFormTitle(booklets[0].title);
     }
-  }, [parsedIndex, booklets]);
+  }, [parsedIndex, booklets, currentBooklet]);
 
   const handleFormTitleChange = (e) => {
     const newTitle = e.target.value;
-    setFormTitle(newTitle);
+    //setFormTitle(newTitle);
     setCurrentBooklet((prevBooklet) => ({
       ...prevBooklet,
       title: newTitle,
@@ -46,18 +89,12 @@ function Booklet({ match }) {
   };
 
   const handlePointUpdate = (newValue, key) => {
-    const updatedPoints = currentBooklet.points.map((point, idx) =>
-      idx === currentPointIndex ? { ...point, [key]: newValue } : point
-    );
-    setCurrentBooklet((prevBooklet) => ({
-      ...prevBooklet,
-      points: updatedPoints,
-    }));
-    setBooklets((previousBooklets) =>
-      previousBooklets.map((booklet, idx) =>
-        idx === parsedIndex ? { ...booklet, points: updatedPoints } : booklet
-      )
-    );
+    setCurrentBooklet((prevBooklet) => {
+      const updatedPoints = prevBooklet.points.map((point, idx) =>
+        idx === currentPointIndex ? { ...point, [key]: newValue } : point
+      );
+      return { ...prevBooklet, points: updatedPoints };
+    });
   };
 
   const handleNextPoint = () => {

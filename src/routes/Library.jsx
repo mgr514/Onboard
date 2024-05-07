@@ -19,11 +19,9 @@ function Library() {
       points: [],
       id: newId,
     };
-    setBooklets((prevBooklets) => {
-      const updatedBooklets = [...prevBooklets, newBooklet];
-      navigate(`/booklet/${newId}`);
-      return updatedBooklets;
-    });
+    setBooklets([...prevBooklets, newBooklet]);
+    navigate(`/booklet/${newId}`);
+    return updatedBooklets;
   };
 
   const handleDeleteBooklet = (index) => {
