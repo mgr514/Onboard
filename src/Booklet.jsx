@@ -2,7 +2,13 @@ import "./style.css";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useState, useEffect, useMemo } from "react";
 import Point from "./components/Point";
-import { Link, useParams, Routes, Route } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  Routes,
+  Route,
+  useSearchParams,
+} from "react-router-dom";
 import FontSizeToggle from "./components/Fontaccess";
 
 function mod(n, m) {
@@ -10,78 +16,31 @@ function mod(n, m) {
 }
 
 function Booklet({ match }) {
-  const { index } = useParams();
-  const parsedIndex = parseInt(index, 10);
+  const { bookletId } = useParams();
+  const parsedBookletId = parseInt(bookletId, 10);
   const [booklets, setBooklets] = useLocalStorage("booklets", []);
-  const [currentBooklet, setCurrentBooklet] = useState({
-    formTitle: "",
-    points: [],
-  });
-  const [formTitle, setFormTitle] = useState("");
-  // const [formTitle, setFormTitle] = useState(booklets[0]?.title || "");
+  const [params] = useSearchParams();
+
+  const currentBookletIndex = booklets.findIndex(
+    ({ id }) => id === parsedBookletId
+  );
+  const currentBooklet = booklets[currentBookletIndex];
+
+  const [formTitle, setFormTitle] = useState(currentBooklet.title || "");
   const [pointType, setPointType] = useState("text");
   const [currentPointIndex, setCurrentPointIndex] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
 
-  const processedBooklets = useMemo(
-    () =>
-      booklets.map((booklet) => ({
-        ...booklet,
-      })),
-    [booklets]
-  );
-
-  // useEffect(() => {
-  //   if (booklets.length > 0) {
-  //     setFormTitle(booklets[0]?.title || "");
-  //   }
-  // }, [booklets]);
-
-  // useEffect(() => {
-  //   if (
-  //     !isNaN(parsedIndex) &&
-  //     parsedIndex >= 0 &&
-  //     parsedIndex < booklets.length &&
-  //     (currentBooklet !== booklets[parsedIndex] ||
-  //       formTitle !== booklets[parsedIndex].title)
-  //   ) {
-  //     setCurrentBooklet(booklets[parsedIndex]);
-  //     setFormTitle(booklets[parsedIndex].title);
-  //   } else if (
-  //     booklets.length > 0 &&
-  //     parsedIndex === undefined &&
-  //     currentBooklet !== booklets[0]
-  //   ) {
-  //     setCurrentBooklet(booklets[0]);
-  //     setFormTitle(booklets[0].title);
-  //   }
-  // }, [parsedIndex, booklets]);
-
-  useEffect(() => {
-    if (
-      !isNaN(parsedIndex) &&
-      parsedIndex >= 0 &&
-      parsedIndex < booklets.length
-    ) {
-      const targetBooklet = booklets[parsedIndex];
-      if (
-        targetBooklet.title !== currentBooklet.title ||
-        targetBooklet.points.length !== currentBooklet.points.length
-      ) {
-        setCurrentBooklet(targetBooklet);
-      }
-    } else if (
-      booklets.length > 0 &&
-      parsedIndex === undefined &&
-      !isEqual(currentBooklet, booklets[0])
-    ) {
-      setCurrentBooklet(booklets[0]);
-    }
-  }, [parsedIndex, booklets, currentBooklet]);
+  const setCurrentBooklet = (cb) => {
+    const newBooklet = cb(currentBooklet);
+    const newBooklets = [...booklets];
+    newBooklets[currentBookletIndex] = newBooklet;
+    setBooklets(newBooklets);
+  };
 
   const handleFormTitleChange = (e) => {
     const newTitle = e.target.value;
-    //setFormTitle(newTitle);
+
     setCurrentBooklet((prevBooklet) => ({
       ...prevBooklet,
       title: newTitle,
@@ -127,11 +86,6 @@ function Booklet({ match }) {
       points: newPoints,
     }));
     setCurrentPointIndex(newPoints.length - 1);
-    setBooklets((previousBooklets) =>
-      previousBooklets.map((booklet, idx) =>
-        idx === parsedIndex ? { ...booklet, points: newPoints } : booklet
-      )
-    );
     setIsEditing(true);
   };
 
@@ -144,11 +98,6 @@ function Booklet({ match }) {
       points: newPoints,
     }));
     setCurrentPointIndex(0);
-    setBooklets((previousBooklets) =>
-      previousBooklets.map((booklet, idx) =>
-        idx === parsedIndex ? { ...booklet, points: newPoints } : booklet
-      )
-    );
   };
 
   const saveBooklet = () => {
@@ -160,7 +109,6 @@ function Booklet({ match }) {
   return (
     <>
       <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-black">
-        {/* Outer container for the top-left items */}
         <div className="absolute top-0 left-0 p-4">
           <FontSizeToggle />
           <div className="mt-4">
@@ -183,7 +131,7 @@ function Booklet({ match }) {
               className="text-lg font-bold border border-gray-900 border-solid focus:outline-none rounded p-1 dark:border-gray-500"
               id="formTitle"
               placeholder="Enter Education Title"
-              value={formTitle}
+              value={currentBooklet.title}
               onChange={handleFormTitleChange}
             />
           </div>

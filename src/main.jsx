@@ -18,13 +18,13 @@ const router = createHashRouter([
     element: <Booklet />,
     children: [
       {
-        path: ":index",
+        path: ":bookletId",
         element: <Booklet />,
       },
     ],
   },
   {
-    path: "/patientview",
+    path: "/patientview/:bookletId",
     element: <PatientView />,
   },
   {

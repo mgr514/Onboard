@@ -19,13 +19,15 @@ function Library() {
       points: [],
       id: newId,
     };
-    setBooklets([...prevBooklets, newBooklet]);
+    setBooklets((prevBooklets) => [...prevBooklets, newBooklet]);
     navigate(`/booklet/${newId}`);
-    return updatedBooklets;
+    //return updatedBooklets;
   };
 
-  const handleDeleteBooklet = (index) => {
-    setBooklets((prevBooklets) => prevBooklets.filter((_, i) => i !== index));
+  const handleDeleteBooklet = (idToDelete) => {
+    setBooklets((prevBooklets) =>
+      prevBooklets.filter((booklet) => booklet.id !== idToDelete)
+    );
   };
 
   return (
@@ -39,19 +41,20 @@ function Library() {
             <div className="font-bold mb-2">{booklet.title}</div>
             <div className="flex space-x-2">
               <Link
-                to={`/booklet/${index}`}
+                to={`/booklet/${booklet.id}?edit=true`}
                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 text-sm rounded"
               >
                 Edit
               </Link>
               <Link
-                to={`/booklet/${index}/PatientView`}
+                to={`/patientview/${booklet.id}`}
+                state={{ booklet: booklet, isEditing: false }}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 text-sm rounded"
               >
                 View
               </Link>
               <button
-                onClick={() => handleDeleteBooklet(index)}
+                onClick={() => handleDeleteBooklet(booklet.id)}
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 text-sm rounded"
               >
                 Delete
