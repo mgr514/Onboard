@@ -32,46 +32,52 @@ function Library() {
   };
 
   return (
-    <div className="library flex min-h-screen bg-gray-100 dark:bg-black">
-      <FontSizeToggle />
-      <div className="booklets flex flex-col w-1/3 p-4 overflow-y-auto">
-        {booklets.map((booklet, index) => (
-          <div
-            key={index}
-            className="booklet mb-4 p-4 bg-white dark:bg-gray-800 rounded shadow"
-          >
-            <div className="font-bold mb-2">{booklet.title}</div>
-            <div className="flex space-x-2">
-              <Link
-                to={`/booklet/${booklet.id}?edit=true`}
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 text-sm rounded"
-              >
-                Edit
-              </Link>
-              <Link
-                to={`/patientview/${booklet.id}`}
-                state={{ booklet: booklet, isEditing: false }}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 text-sm rounded"
-              >
-                View
-              </Link>
-              <button
-                onClick={() => handleDeleteBooklet(booklet.id)}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 text-sm rounded"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
+    <div className="library min-h-screen bg-gray-100 dark:bg-black flex flex-col">
+      <div className="p-4">
+        <FontSizeToggle />
       </div>
-      <div className="flex-1 flex justify-end items-end p-4">
-        <button
-          onClick={handleCreateBooklet}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Create Booklet
-        </button>
+      <div className="flex flex-grow">
+        <div className="booklets flex flex-col w-full overflow-y-auto">
+          {booklets.map((booklet, index) => (
+            <div
+              key={index}
+              className="booklet mb-4 p-4 bg-white dark:bg-gray-800 rounded shadow flex items-center"
+            >
+              <div className="flex-grow flex items-center space-x-4">
+                <div className="font-bold">{booklet.title}</div>
+                <div className="flex space-x-2">
+                  <Link
+                    to={`/booklet/${booklet.id}?edit=true`}
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 text-sm rounded"
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    to={`/patientview/${booklet.id}`}
+                    state={{ booklet: booklet, isEditing: false }}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 text-sm rounded"
+                  >
+                    View
+                  </Link>
+                  <button
+                    onClick={() => handleDeleteBooklet(booklet.id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 text-sm rounded"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="p-4 flex justify-end items-end">
+          <button
+            onClick={handleCreateBooklet}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Create Booklet
+          </button>
+        </div>
       </div>
     </div>
   );

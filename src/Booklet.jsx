@@ -112,12 +112,12 @@ function Booklet({ match }) {
         <div className="absolute top-0 left-0 p-4">
           <FontSizeToggle />
           <div className="mt-4">
-            <Link
+            {/* <Link
               to="/library"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
               Booklet Library
-            </Link>
+            </Link> */}
           </div>
         </div>
 
@@ -200,6 +200,12 @@ function Booklet({ match }) {
             </button>
           </div>
         </form>
+        <Link
+          to="/library"
+          className="absolute right-34 bottom-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Save Booklet
+        </Link>
       </div>
     </>
   );

@@ -31,27 +31,31 @@ function PatientView() {
   const currentPoint = booklet.points[currentPointIndex];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center min-h-screen">
-      <FontSizeToggle />
-      <h1 className="text-3xl font-bold text-center text-gray-900 my-5">
-        {booklet.title}
-      </h1>
-      <div className="space-y-4 p-5 flex flex-col items-center justify-center flex-grow">
-        <Point point={currentPoint} isEditing={isEditing} />
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-between min-h-screen">
+      <div>
+        <FontSizeToggle />
+        <h1 className="text-3xl font-bold text-center text-gray-900 my-5">
+          {booklet.title}
+        </h1>
+        <div className="space-y-4 p-5 flex flex-col items-center justify-center">
+          <Point point={currentPoint} isEditing={isEditing} />
+        </div>
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={handlePreviousPoint}
+            className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 ml-2"
+          >
+            👈
+          </button>
+          <button
+            onClick={handleNextPoint}
+            className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 ml-2"
+          >
+            👉
+          </button>
+        </div>
       </div>
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={handlePreviousPoint}
-          className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 ml-2"
-        >
-          👈
-        </button>
-        <button
-          onClick={handleNextPoint}
-          className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 ml-2"
-        >
-          👉
-        </button>
+      <div className="flex justify-end pb-4">
         <Link
           to="/library"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
