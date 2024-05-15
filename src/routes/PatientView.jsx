@@ -1,28 +1,16 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import Point from "../components/Point";
+import FontSizeToggle from "../components/Fontaccess";
 
 function PatientView() {
   const location = useLocation();
   const { booklet, isEditing = false } = location.state;
   const [currentPointIndex, setCurrentPointIndex] = useState(0);
-  //const currentBooklet = booklets[currentBookletIndex];
 
-  // const [formTitle, setFormTitle] = useState(booklet.title);
-  // const [points, setPoints] = useState(booklet.points);
   const [darkMode, setDarkMode] = useState(false);
   const [fontSize, setFontSize] = useState(14);
   const themeClass = darkMode ? "dark" : "light";
-
-  // useEffect(() => {
-  //   const storedData = localStorage.getItem("points");
-  //   console.log({ storedData });
-  //   if (storedData) {
-  //     const data = JSON.parse(storedData);
-  //     //setFormTitle(data.formTitle);
-  //     setPoints(data || []);
-  //   }
-  // }, []);
 
   const handleNextPoint = () => {
     if (currentPointIndex < booklet.points.length - 1) {
@@ -43,26 +31,33 @@ function PatientView() {
   const currentPoint = booklet.points[currentPointIndex];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center min-h-screen">
+      <FontSizeToggle />
       <h1 className="text-3xl font-bold text-center text-gray-900 my-5">
         {booklet.title}
       </h1>
-      <div className="space-y-4 p-5">
-        <Point point={currentPoint} isEditing={false} />
+      <div className="space-y-4 p-5 flex flex-col items-center justify-center flex-grow">
+        <Point point={currentPoint} isEditing={isEditing} />
       </div>
       <div className="flex justify-center mt-4">
         <button
           onClick={handlePreviousPoint}
-          className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded-l"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 ml-2"
         >
-          Prev
+          👈
         </button>
         <button
           onClick={handleNextPoint}
-          className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded-r"
+          className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 ml-2"
         >
-          Next
+          👉
         </button>
+        <Link
+          to="/library"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Booklet Library
+        </Link>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import FontSizeToggle from "../components/Fontaccess";
 
 function Library() {
   const [booklets, setBooklets] = useLocalStorage("booklets", []);
@@ -32,6 +33,7 @@ function Library() {
 
   return (
     <div className="library flex min-h-screen bg-gray-100 dark:bg-black">
+      <FontSizeToggle />
       <div className="booklets flex flex-col w-1/3 p-4 overflow-y-auto">
         {booklets.map((booklet, index) => (
           <div
