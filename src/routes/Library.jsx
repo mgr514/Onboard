@@ -14,7 +14,7 @@ function Library() {
 
   const handleCreateBooklet = () => {
     const newId =
-      booklets.reduce((maxId, booklet) => Math.max(maxId, booklet.id), 0) + 1; //chatGPt...what is this???
+      booklets.reduce((maxId, booklet) => Math.max(maxId, booklet.id), 0) + 1;
     const newBooklet = {
       title: "",
       points: [],
