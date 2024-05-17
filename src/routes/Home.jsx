@@ -8,7 +8,7 @@ function Home() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 dark:bg-black dark:text-white">
         <FontSizeToggle />
         <h1 className="text-3xl font-bold text-center text-gray-900 mt-10 mb-5 dark:text-white">
-          Welcome to the Home Page
+          Welcome to MedonBoard
         </h1>
         <div className="flex justify-center mb-8">
           <Link

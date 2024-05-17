@@ -3,6 +3,15 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import React, { useState, useEffect, useMemo } from "react";
 import Point from "./components/Point";
 import {
+  PencilSimple,
+  Trash,
+  Eye,
+  PlusCircle,
+  CaretCircleRight,
+  CaretCircleLeft,
+  House,
+} from "@phosphor-icons/react";
+import {
   Link,
   useParams,
   Routes,
@@ -109,9 +118,17 @@ function Booklet({ match }) {
   return (
     <>
       <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 dark:bg-black">
-        <div className="absolute top-0 left-0 p-4">
-          <FontSizeToggle />
-          <div className="mt-4">
+        <div className="p-4 flex flex-col items-start space-y-4 absolute top-0 left-0">
+          <div className="flex space-x-2">
+            <Link
+              to="/"
+              className="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors"
+            >
+              <House size={32} weight="thin" />
+            </Link>
+            <FontSizeToggle />
+          </div>
+          <div>
             <Link
               to="/library"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -123,6 +140,26 @@ function Booklet({ match }) {
 
         <div className="new-item mx-auto max-w-2xl bg-white shadow-lg rounded-lg p-6 dark:bg-gray-800 dark:shadow-2xl dark:text-white">
           <form>
+            <div className="flex justify-end space-x-2 mb-4">
+              <button
+                type="button"
+                className="bg-red-500 hover:bg-red-700 text-white text-sm font-bold px-2 rounded py-1"
+                onClick={handleDelete}
+              >
+                <Trash size={24} weight="thin" />
+              </button>
+              <button
+                type="button"
+                className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold px-2 rounded py-1"
+                onClick={handleToggleEditing}
+              >
+                {isEditing ? (
+                  "Finish Editing"
+                ) : (
+                  <PencilSimple size={24} weight="thin" />
+                )}
+              </button>
+            </div>
             <h1>Patient Education</h1>
 
             <div className="form-row py-2">
@@ -163,41 +200,27 @@ function Booklet({ match }) {
               </div>
             )}
 
-            <div className="flex items-center justify-center space-x-2">
+            <div className="flex justify-between items-center">
               <button
                 type="button"
-                className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 mr-2"
+                className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2"
                 onClick={handlePreviousPoint}
               >
-                👈
+                <CaretCircleLeft size={32} weight="thin" />
               </button>
               <button
                 type="button"
                 className="bg-green-500 hover:bg-green-700 text-white text-lg font-bold px-4 rounded py-2"
                 onClick={handleAddPoint}
               >
-                +
+                <PlusCircle size={32} weight="thin" />
               </button>
               <button
                 type="button"
-                className="bg-red-500 hover:bg-red-700 text-white text-lg font-bold px-4 rounded py-2"
-                onClick={handleDelete}
-              >
-                🗑
-              </button>
-              <button
-                type="button"
-                className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 mr-2"
-                onClick={handleToggleEditing}
-              >
-                {isEditing ? "Finish Editing" : "Edit"}
-              </button>
-              <button
-                type="button"
-                className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2 ml-2"
+                className="bg-blue-500 hover:bg-blue-700 text-white text-lg font-bold px-4 rounded py-2"
                 onClick={handleNextPoint}
               >
-                👉
+                <CaretCircleRight size={32} weight="thin" />
               </button>
             </div>
           </form>

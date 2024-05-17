@@ -5,7 +5,10 @@ import FontSizeToggle from "../components/Fontaccess";
 
 function PatientView() {
   const location = useLocation();
-  const { booklet, isEditing = false } = location.state;
+  const { booklet, isEditing } = location.state || {
+    booklet: null,
+    isEditing: false,
+  };
   const [currentPointIndex, setCurrentPointIndex] = useState(0);
 
   const [darkMode, setDarkMode] = useState(false);
