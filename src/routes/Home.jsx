@@ -4,10 +4,10 @@ import FontSizeToggle from "../components/Fontaccess";
 
 function Home() {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-black dark: text-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 dark:bg-black dark:text-white">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-black text-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <FontSizeToggle />
-        <h1 className="text-3xl font-bold text-center text-gray-900 mt-10 mb-5 dark:text-white">
+        <h1 className="text-3xl font-bold text-center text-gray-900 mt-10 mb-8 dark:text-white">
           Welcome to MedonBoard
         </h1>
         <div className="flex justify-center mb-8">
@@ -18,33 +18,46 @@ function Home() {
             Go to Library
           </Link>
         </div>
-        <p className="text-base text-gray-700 mb-4 dark:text-white">
-          I currently work as a nurse in a hospital. Patients requiring
-          education about procedures, surgeries, and/or recovery are provided
-          paper booklets.
-        </p>
-        <p className="text-base text-gray-700 mb-4 dark:text-white">
-          Unfortunately the standardized booklet is not accessible for all
-          patients. Patients have increasing complex needs that a standard
-          booklet does not address, as well some patients are illiterate, blind,
-          or non-english speaking.{" "}
-        </p>
-        <p className="text-base text-gray-700 mb-4 dark:text-white">
-          This project is a patient education tool to be used when onboarding a
-          patient when an individualized health plan is needed. Editable fields
-          allow the educator to change and update any information for
-          individualized patient education, allowing us to easily address each
-          patient's needs.
-        </p>
-        <p className="text-base text-gray-700 mb-4 dark:text-white">
-          Using Tailwind and React, I have created an app that allows an
-          educator to create a form title and add education points that will
-          store in local storage. The multimedia options allow an educator to
-          maximize patient education by allowing an educator to address the
-          multiple learning styles and needs of each person. Each form created
-          is saved in local storage as a booklet in a library that can be viewed
-          or edited at any time.
-        </p>
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            About Me:
+          </h2>
+          <p className="text-base text-gray-700 dark:text-white">
+            Hi! My name is Michaela and I'm from St. John's, Newfoundland. I am
+            a Get Coding student, but I also have an educational background in
+            nursing and business administration. I currently work as a nurse in
+            a CVICU caring for patient post heart surgery.
+          </p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            What is this app?
+          </h2>
+          <p className="text-base text-gray-700 dark:text-white">
+            This is a Get Coding project that is meant to be a patient education
+            tool. It onboards patients for any medical
+            procedure/surgery/recovery they may experience.
+          </p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            Issue:
+          </h2>
+          <p className="text-base text-gray-700 dark:text-white">
+            One of my pain points in my role as a nurse is that patient
+            education is not adequate. We currently provide patients paper
+            booklets in English and that's the only resource we provide. The
+            issue is that many patients do not have the literacy level to
+            understand or even read the booklets we provide, as well as patients
+            who have poor vision.
+          </p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            Solution:
+          </h2>
+          <p className="text-base text-gray-700 dark:text-white">
+            Using Tailwind and React, I have created an app that allows an
+            educator/staff member to create booklets using multiple media types.
+            These booklets will store in local storage for recall and editing.
+            The multimedia options allow an educator to maximize patient
+            education by creating resources that can benefit all learning needs.
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ function Library() {
     switch (point.type) {
       case "text":
         return (
-          <div className="border-2 border-gray-400 p-2 w-full h-full flex items-center justify-center rounded-md">
+          <div className="flex items-center justify-center w-full h-full text-center">
             {point.text}
           </div>
         );
@@ -44,22 +44,19 @@ function Library() {
           <img
             src={point.imageUrl}
             alt="Preview"
-            className="border-2 border-gray-400 w-full h-full object-cover rounded-md"
+            className="w-full h-full object-cover rounded-md"
           />
         );
       case "video":
         return (
-          <video
-            className="border-2 border-gray-400 w-full h-full rounded-md"
-            controls
-          >
+          <video className="w-full h-full rounded-md" controls>
             <source src={point.videoUrl} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         );
       default:
         return (
-          <div className="border-2 border-gray-400 p-2 w-full h-full flex items-center justify-center rounded-md">
+          <div className="flex items-center justify-center w-full h-full text-center">
             Unknown point type
           </div>
         );
@@ -116,8 +113,11 @@ function Library() {
                 <div className="font-bold mb-2 mt-8 text-center text-xl underline">
                   {booklet.title}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-300 text-center w-full h-full flex items-center justify-center">
-                  <div className="border-2 border-gray-400 w-40 h-40 flex items-center justify-center rounded-md">
+                <div className="border-2 border-gray-400 w-40 h-40 flex flex-col items-center justify-start rounded-md">
+                  <div className="text-center font-semibold mt-1 mb-1">
+                    Preview
+                  </div>
+                  <div className="flex items-center justify-center w-full h-full text-center">
                     {booklet.points.length > 0
                       ? renderFirstPointPreview(booklet.points[0])
                       : "No points available"}
@@ -137,4 +137,5 @@ function Library() {
     </div>
   );
 }
+
 export default Library;
