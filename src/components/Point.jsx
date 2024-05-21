@@ -12,7 +12,9 @@ function TextPoint({ point, isEditing, onChange }) {
       />
     </div>
   ) : (
-    <div>{point.text}</div>
+    <div className="flex items-center justify-center h-full">
+      <div className="text-center">{point.text}</div>
+    </div>
   );
 }
 
@@ -26,25 +28,27 @@ function ImagePoint({ point, isEditing, onChange }) {
             placeholder="Enter image URL"
             value={point.imageUrl || ""}
             onChange={(e) => onChange(e.target.value, "imageUrl")}
+            className="mb-2 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           />
           <input
             type="text"
             placeholder="Enter text"
             value={point.text || ""}
             onChange={(e) => onChange(e.target.value, "text")}
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           />
         </>
       ) : (
-        <>
-          <div>{point.text}</div>
+        <div className="flex flex-col items-center">
           {point.imageUrl && (
             <img
               src={point.imageUrl}
               alt="Education Point Image"
-              style={{ maxWidth: "480px", maxHeight: "250px" }}
+              className="max-w-full max-h-96 mb-4"
             />
           )}
-        </>
+          <div className="text-center">{point.text}</div>
+        </div>
       )}
     </>
   );

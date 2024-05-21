@@ -32,68 +32,6 @@ function Library() {
     );
   };
 
-  // const renderFirstPointPreview = (point) => {
-  //   if (!point || !point.type) {
-  //     return (
-  //       <div className="flex items-center justify-center w-full h-full text-center">
-  //         Unknown point type
-  //       </div>
-  //     );
-  //   }
-
-  //   switch (point.type) {
-  //     case "text":
-  //       return (
-  //         <div className="flex items-center justify-center w-full h-full text-center">
-  //           {point.text || "No text available"}
-  //         </div>
-  //       );
-  //     case "text_and_image":
-  //       return point.imageUrl ? (
-  //         <img
-  //           src={point.imageUrl}
-  //           alt="Preview"
-  //           className="w-full h-full object-cover rounded-md"
-  //           onError={(e) => (e.target.src = "path/to/placeholder-image.jpg")}
-  //         />
-  //       ) : (
-  //         <div className="flex items-center justify-center w-full h-full text-center">
-  //           Image not available
-  //         </div>
-  //       );
-  //     case "video":
-  //       const videoID = extractYouTubeVideoID(point.videoUrl);
-  //       return videoID ? (
-  //         <iframe
-  //           width="100%"
-  //           height="100%"
-  //           src={`https://www.youtube.com/embed/${videoID}`}
-  //           title="YouTube video player"
-  //           className="rounded-md"
-  //           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  //           allowFullScreen
-  //         ></iframe>
-  //       ) : (
-  //         <div className="flex items-center justify-center w-full h-full text-center">
-  //           Invalid YouTube URL
-  //         </div>
-  //       );
-  //     default:
-  //       return (
-  //         <div className="flex items-center justify-center w-full h-full text-center">
-  //           Unknown point type
-  //         </div>
-  //       );
-  //   }
-  // };
-
-  // const extractYouTubeVideoID = (url) => {
-  //   const pattern =
-  //     /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
-  //   const match = url.match(pattern);
-  //   return match ? match[1] : null;
-  // };
-
   const renderFirstPointPreview = (point) => {
     return point ? (
       <div className="w-full h-full overflow-hidden">
@@ -153,13 +91,11 @@ function Library() {
                 </button>
               </div>
               <div className="flex flex-col items-center justify-center flex-grow mt-2">
-                <div className="font-bold mb-3 mt-2 text-center text-xl underline">
+                <div className="font-bold mb-2 mt-2 text-center text-xl underline">
                   {booklet.title}
                 </div>
-                <div className="border-2 border-gray-400 w-40 h-40 flex flex-col items-center justify-start rounded-md overflow-hidden">
-                  <div className="text-center font-semibold mt-1 mb-1">
-                    Preview
-                  </div>
+                <div className="text-center font-medium mb-1 mt-2">Preview</div>
+                <div className="border-2 border-gray-400 w-40 h-40 flex items-center justify-center rounded-md overflow-hidden bg-gray-200 dark:bg-gray-700">
                   <div className="flex items-center justify-center w-full h-full text-center">
                     {booklet.points.length > 0
                       ? renderFirstPointPreview(booklet.points[0])
