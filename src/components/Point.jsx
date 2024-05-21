@@ -1,3 +1,5 @@
+//Text input boxes need to be bigger, currently too narrow. Want more vertical space, maybe a scroll function if lots of tetxt
+//need more space between box border and start/end of text.
 import React from "react";
 
 function TextPoint({ point, isEditing, onChange }) {

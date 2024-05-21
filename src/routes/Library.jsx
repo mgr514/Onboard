@@ -60,7 +60,7 @@ function Library() {
           {booklets.map((booklet, index) => (
             <div
               key={index}
-              className="booklet m-4 p-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex flex-col justify-between relative border-2 border-blue-500"
+              className="booklet m-2 sm:m-4 p-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 max-w-xs h-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex flex-col justify-between relative border-2 border-blue-500"
               style={{ cursor: "pointer" }}
               onClick={() =>
                 navigate(`/patientview/${booklet.id}`, {
@@ -94,8 +94,10 @@ function Library() {
                 <div className="font-bold mb-2 mt-2 text-center text-xl underline">
                   {booklet.title}
                 </div>
-                <div className="text-center font-medium mb-1 mt-2">Preview</div>
-                <div className="border-2 border-gray-400 w-40 h-40 flex items-center justify-center rounded-md overflow-hidden bg-gray-200 dark:bg-gray-700">
+                <div className="text-center font-medium mb-1 mt-2">
+                  Preview:
+                </div>
+                <div className="border-2 border-gray-400 w-40 h-40 flex items-center justify-center rounded-md overflow-hidden bg-gray-50 dark:bg-gray-600">
                   <div className="flex items-center justify-center w-full h-full text-center">
                     {booklet.points.length > 0
                       ? renderFirstPointPreview(booklet.points[0])
@@ -107,7 +109,7 @@ function Library() {
           ))}
           <button
             onClick={handleCreateBooklet}
-            className="booklet m-4 p-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex items-center justify-center border-2 border-blue-500"
+            className="booklet m-2 sm:m-4 p-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 max-w-xs h-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg flex items-center justify-center border-2 border-blue-500"
           >
             <PlusCircle size={48} weight="thin" className="text-blue-500" />
           </button>
