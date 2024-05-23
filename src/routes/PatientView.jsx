@@ -1,3 +1,4 @@
+//swipey scroll
 import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import Point from "../components/Point";

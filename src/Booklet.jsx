@@ -112,27 +112,45 @@ function Booklet() {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row min-h-screen bg-gray-100 dark:bg-black relative">
-        <div className="flex flex-col p-4 space-y-4 lg:w-1/4">
-          <div className="flex space-x-2">
+      <div className="flex flex-col lg:flex-row min-h-screen dark:bg-black relative">
+        <div className="flex flex-row lg:flex-col p-4 items-center gap-4 lg:w-1/4 xl:w-1/5 xl:max-w-xs xl:static">
+          <div className="flex flex-col gap-4 w-full">
+            <div className="flex space-x-2">
+              <Link
+                to="/"
+                className="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors"
+              >
+                <House size={32} weight="thin" />
+              </Link>
+              <FontSizeToggle />
+            </div>
             <Link
-              to="/"
-              className="px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors"
+              to="/library"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
+              style={{ maxWidth: "fit-content" }}
             >
-              <House size={32} weight="thin" />
+              Booklet Library
             </Link>
-            <FontSizeToggle />
+            <div className="hidden lg:flex lg:flex-col lg:items-start lg:justify-center text-xs max-h-64 overflow-auto w-full">
+              <div className="flex flex-col lg:mt-0">
+                <h2 className="font-bold mb-2 underline">Points</h2>
+                <ul className="list-disc pl-4 max-w-full overflow-x-auto">
+                  {currentBooklet.points.map((point, index) => (
+                    <li
+                      key={index}
+                      className="cursor-pointer text-blue-500 hover:underline whitespace-nowrap py-2 border-b border-gray-200 hover:bg-blue-100 transition-colors"
+                      onClick={() => handlePointClick(index)}
+                    >
+                      Point {index + 1} - {point.type.replace("_", " ")}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
-          <Link
-            to="/library"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
-            style={{ maxWidth: "fit-content" }}
-          >
-            Booklet Library
-          </Link>
         </div>
 
-        <div className="flex flex-col items-center justify-center flex-grow p-4 lg:w-3/4">
+        <div className="flex flex-col items-center justify-center flex-grow p-4 bg-gray-100">
           <div className="new-item w-full max-w-xl bg-white shadow-lg rounded-lg p-6 dark:bg-gray-800 dark:shadow-2xl dark:text-white flex flex-col justify-center relative overflow-hidden">
             <form className="flex flex-col justify-center items-center w-full">
               <div className="flex justify-end space-x-2 w-full mb-4 flex-wrap">
@@ -227,26 +245,8 @@ function Booklet() {
             <p>Booklets will automatically save.</p>
           </div>
         </div>
-
-        <div className="absolute top-4 right-4 lg:static lg:flex lg:flex-col lg:items-start lg:justify-center lg:w-1/4">
-          <div className="flex flex-col items-end lg:items-start lg:mt-0">
-            <h2 className="font-bold mb-2 underline">Points</h2>
-            <ul className="list-disc pl-4 max-w-full overflow-x-auto">
-              {currentBooklet.points.map((point, index) => (
-                <li
-                  key={index}
-                  className="cursor-pointer text-blue-500 hover:underline whitespace-nowrap"
-                  onClick={() => handlePointClick(index)}
-                >
-                  Point {index + 1} - {point.type.replace("_", " ")}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
       </div>
     </>
   );
 }
-
 export default Booklet;

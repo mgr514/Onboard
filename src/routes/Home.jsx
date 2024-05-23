@@ -1,3 +1,4 @@
+//obtain pictures and finish
 import React from "react";
 import { Link } from "react-router-dom";
 import FontSizeToggle from "../components/Fontaccess";
